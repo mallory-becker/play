@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Juno Park</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23FF4D1F'/%3E%3C/svg%3E" />
+</head>
+<body data-screen-label="04 Contact">
+
+<a href="#main" class="skip">Skip to content</a>
+
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__brand" data-cursor="Home">
+      <span class="nav__brand-mark"><span>j</span></span>
+      <span>JUNO&nbsp;PARK<span style="color:var(--muted);font-weight:400;">&nbsp;— Motion + Interaction</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html" class="nav__link">Work</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="case-pulse.html" class="nav__link">Case study</a>
+      <a href="contact.html" class="nav__link" aria-current="page">Contact</a>
+    </nav>
+    <a href="#form" class="nav__cta" data-cursor="Jump to form">
+      <span class="nav__cta-dot" aria-hidden="true"></span>
+      Available Q3
+      <span class="arrow">↓</span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="container contact-hero" data-screen-label="Contact hero">
+  <span class="eyebrow">Contact — say a thing</span>
+  <h1 class="display-xl" style="margin-top:24px;line-height:0.96;letter-spacing:-0.03em;">
+    Tell me about<br />
+    <em class="serif italic" style="color:var(--accent);font-weight:400;">the thing you're<br />trying to make.</em>
+  </h1>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;border-top:1px solid var(--hair);padding-top:32px;">
+    <div>
+      <span class="eyebrow">Right now</span>
+      <p class="serif italic" style="font-size:24px;margin-top:8px;line-height:1.2;">Booking Q3 — two slots.</p>
+    </div>
+    <div>
+      <span class="eyebrow">Reply time</span>
+      <p class="serif italic" style="font-size:24px;margin-top:8px;line-height:1.2;">Within 48 hours.<br /><span class="sans" style="font-style:normal;font-size:13px;color:var(--muted);">Or sooner if I'm procrastinating.</span></p>
+    </div>
+    <div>
+      <span class="eyebrow">Best email</span>
+      <p class="serif italic" style="font-size:24px;margin-top:8px;line-height:1.2;"><a href="mailto:juno@junopark.studio" data-cursor="Copy email" style="border-bottom:1px solid currentColor;">juno@junopark.studio</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FORM ════════════════════ -->
+<section class="container section" id="form">
+  <div class="case-body" style="grid-template-columns:1fr 1.6fr;">
+    <div class="case-body__label">
+      <span style="display:block;margin-bottom:24px;">Or use the form. It's nicer.</span>
+      <p style="font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--muted);letter-spacing:0;text-transform:none;font-weight:400;max-width:240px;">
+        The form pre-fills the subject line based on what you pick. Email is forgiving — type whatever, it cleans up. No required asterisks; just fill what you want.
+      </p>
+    </div>
+
+    <form id="contact-form" class="contact-form" autocomplete="on" novalidate>
+      <div class="field field--full">
+        <label>I'd like to talk about…</label>
+        <div class="chip-row">
+          <label class="chip"><input type="checkbox" value="motion design" />Motion design</label>
+          <label class="chip"><input type="checkbox" value="prototyping" />Prototyping</label>
+          <label class="chip"><input type="checkbox" value="a full product" />A full product</label>
+          <label class="chip"><input type="checkbox" value="a workshop" />A workshop</label>
+          <label class="chip"><input type="checkbox" value="something else" />Something else</label>
+        </div>
+        <span class="field__hint"><em>Hick's Law:</em> five options. Not fifty.</span>
+      </div>
+
+      <div class="field">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" placeholder="e.g. Sam Lee" autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@thing.com" autocomplete="email" />
+        <span class="field__hint">No need to lowercase — I'll handle it.</span>
+      </div>
+
+      <div class="field field--full">
+        <label for="subject">Subject</label>
+        <input id="subject" name="subject" type="text" placeholder="Auto-fills when you tick a chip above" />
+      </div>
+
+      <div class="field field--full">
+        <label for="message">What's the thing?</label>
+        <textarea id="message" name="message" placeholder="A paragraph is plenty. Links welcome. No agency briefs, please."></textarea>
+        <span class="field__hint">Pro tip: tell me what's keeping <em>you</em> up about it — that's where the work starts.</span>
+      </div>
+
+      <div class="field">
+        <label for="budget">Rough budget</label>
+        <select id="budget" name="budget">
+          <option value="">Pick a range</option>
+          <option value="indie">Indie / non-profit (sliding scale)</option>
+          <option value="10-25k">$10–25k</option>
+          <option value="25-60k">$25–60k</option>
+          <option value="60k+">$60k+</option>
+          <option value="unsure">Honestly unsure</option>
+        </select>
+        <span class="field__hint">"Unsure" is fine. We'll figure it out.</span>
+      </div>
+
+      <div class="field">
+        <label for="when">Ideal start</label>
+        <select id="when" name="when">
+          <option value="">Pick a window</option>
+          <option value="now">Whenever you can</option>
+          <option value="month">Within a month</option>
+          <option value="quarter">This quarter</option>
+          <option value="later">Later in the year</option>
+        </select>
+      </div>
+
+      <div class="field field--full" style="display:flex;flex-direction:row;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap;">
+        <button type="submit" class="btn btn--primary" style="padding:22px 32px;font-size:17px;" data-cursor="Send it">
+          Send it <span class="arrow">→</span>
+        </button>
+        <span class="mono muted" style="font-size:12px;letter-spacing:0.04em;">
+          Pressing ⏎ from any field also works.
+        </span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ════════════════════ ELSEWHERE ════════════════════ -->
+<section class="container section">
+  <span class="eyebrow">Or, find me elsewhere</span>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px;">
+    <a href="#" class="btn btn--ghost" style="justify-content:space-between;font-family:var(--mono);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;min-height:64px;" data-cursor="External">Read.cv <span class="arrow">↗</span></a>
+    <a href="#" class="btn btn--ghost" style="justify-content:space-between;font-family:var(--mono);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;min-height:64px;" data-cursor="External">Are.na <span class="arrow">↗</span></a>
+    <a href="#" class="btn btn--ghost" style="justify-content:space-between;font-family:var(--mono);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;min-height:64px;" data-cursor="External">Github <span class="arrow">↗</span></a>
+    <a href="#" class="btn btn--ghost" style="justify-content:space-between;font-family:var(--mono);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;min-height:64px;" data-cursor="External">Newsletter <span class="arrow">↗</span></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">Juno Park.<br /><span style="color:var(--accent);">Available Q3.</span></div>
+      <div class="footer__col"><h4>Navigate</h4><ul>
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="case-pulse.html">Pulse case</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer__col"><h4>Elsewhere</h4><ul>
+        <li><a href="#">Read.cv ↗</a></li><li><a href="#">Are.na ↗</a></li>
+        <li><a href="#">Github ↗</a></li><li><a href="#">Notes ↗</a></li>
+      </ul></div>
+      <div class="footer__col"><h4>Says hi</h4><ul>
+        <li><a href="mailto:juno@junopark.studio">juno@junopark.studio</a></li>
+        <li><a href="#">+351 91 234 5678</a></li>
+        <li class="muted" style="color:var(--muted-on-dark);">Lisbon · UTC&nbsp;+0</li>
+      </ul></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Juno Park. Built by hand, in Lisbon.</span>
+      <span>v07 — last edit <span data-time>—:—</span> WET</span>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

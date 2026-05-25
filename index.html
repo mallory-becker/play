@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Juno Park — Motion & Interaction Design</title>
+  <meta name="description" content="Juno Park is an independent motion & interaction designer based in Lisbon. Selected work, process, and a deep dive on Pulse." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23FF4D1F'/%3E%3C/svg%3E" />
+</head>
+<body data-screen-label="01 Landing">
+
+<a href="#main" class="skip">Skip to content</a>
+
+<!-- ════════════════════ NAV ════════════════════ -->
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__brand" data-cursor="Home" aria-label="Juno Park, home">
+      <span class="nav__brand-mark"><span>j</span></span>
+      <span>JUNO&nbsp;PARK<span style="color:var(--muted);font-weight:400;">&nbsp;— Motion + Interaction</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html" class="nav__link" aria-current="page">Work</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="case-pulse.html" class="nav__link">Case study</a>
+      <a href="contact.html" class="nav__link" id="contact">Contact</a>
+    </nav>
+    <a href="contact.html" class="nav__cta" data-cursor="Start a project">
+      <span class="nav__cta-dot" aria-hidden="true"></span>
+      Available Q3
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="container hero" aria-label="Intro" data-screen-label="Hero">
+  <div class="hero__meta">
+    <div class="hero__meta-block">
+      <span class="eyebrow">Portfolio — V07</span>
+      <span class="eyebrow muted">Updated this week · Lisbon, PT</span>
+    </div>
+    <div class="hero__meta-block" style="align-items:flex-end;text-align:right;">
+      <span class="eyebrow">38.72°N · 9.13°W</span>
+      <span class="eyebrow muted"><span data-time>—:—</span> WET · Sunny, mostly</span>
+    </div>
+  </div>
+
+  <h1 class="hero__title display-xxl">
+    I make interfaces<br />
+    that move on<br />
+    <em>purpose</em> — and never<br />
+    on <span class="strike">autoplay.</span>
+  </h1>
+
+  <div class="hero__caption">
+    <div class="hero__bio">
+      <p class="lead">
+        <span class="serif italic" style="color:var(--accent);">Juno Park.</span>
+        Motion &amp; interaction designer for software that should feel like it has a pulse.
+        Currently independent, taking on two clients at a time.
+        Previously at Linear, Arc, and a record label that doesn't exist anymore.
+      </p>
+    </div>
+    <div class="hero__status">
+      <span class="status-pill"><span class="status-pill__dot"></span>Booking new work — Q3 2026</span>
+      <p class="mono muted" style="font-size:12px;letter-spacing:0.04em;line-height:1.5;">
+        Quick projects, clear scope, kind people.<br />
+        Sliding scale for indies and non-profits.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ MARQUEE ════════════════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Motion design <span class="dot"></span> Interaction systems <span class="dot"></span> Prototyping <span class="dot"></span> Design engineering <span class="dot"></span> Easing-curve enthusiast <span class="dot"></span></span>
+    <span>Motion design <span class="dot"></span> Interaction systems <span class="dot"></span> Prototyping <span class="dot"></span> Design engineering <span class="dot"></span> Easing-curve enthusiast <span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- ════════════════════ ABOUT SNIPPET ════════════════════ -->
+<section class="container section" aria-label="About">
+  <div class="about-snippet reveal">
+    <div class="about-snippet__label">
+      <span class="eyebrow">01 — About</span>
+      <p class="serif italic" style="font-size:clamp(40px,4.5vw,72px); line-height:1.0; margin-top:24px; letter-spacing:-0.02em;">
+        The in-between<br />is the design.
+      </p>
+    </div>
+    <div>
+      <p class="lead" style="margin-bottom:28px;">
+        I design the moments between clicks — the easing curves, the hover delays, the tiny lies of timing that make software feel like it has a pulse. Most products treat motion as decoration. I treat it as the load-bearing wall.
+      </p>
+      <p class="muted" style="font-size:17px;line-height:1.65;">
+        I work end-to-end: from the first scribble through React/SwiftUI prototypes that ship. I'm at my best on small teams where I can hold a problem from the ICU through the after-party. I write about easing and have a slightly unreasonable opinion about <em class="serif italic">cubic-bezier(0.34, 1.56, 0.64, 1)</em>.
+      </p>
+      <div style="display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;">
+        <a href="about.html" class="btn btn--ghost" data-cursor="Read more">Read the long version <span class="arrow">→</span></a>
+        <a href="#work" class="btn btn--primary" data-cursor="See work">Skip to the work</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="hair-line container" />
+
+<!-- ════════════════════ FEATURED CASE ════════════════════ -->
+<section class="container section--tight section" id="featured" aria-label="Featured case study">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;gap:24px;flex-wrap:wrap;">
+    <div>
+      <span class="eyebrow">02 — Featured deep dive</span>
+      <h2 class="display-lg" style="margin-top:16px;">A case study, in full.</h2>
+    </div>
+    <a href="case-pulse.html" class="btn btn--ghost" data-cursor="Open case">Read the case <span class="arrow">→</span></a>
+  </div>
+
+  <article class="featured reveal" style="position:relative;">
+    <div class="featured__art" aria-hidden="true">
+      <span class="featured__art-label">Pulse · 2025</span>
+      <div class="featured__art-disc"></div>
+      <span class="featured__art-label-r">A — Side</span>
+    </div>
+    <div class="featured__body">
+      <div>
+        <span class="eyebrow" style="color:var(--accent);">Pulse — Audio app</span>
+        <h3 class="display-md serif italic" style="font-size:clamp(36px,4.5vw,64px); line-height:1.0; margin-top:16px;letter-spacing:-0.02em;font-weight:400;">
+          A music player<br />for people who<br />hate scrubbing.
+        </h3>
+        <p style="margin-top:24px;font-size:17px;line-height:1.6;color:var(--paper-on-dark);max-width:420px;">
+          Rebuilt the scrub interaction from scratch — a magnetic gesture that snaps to beat markers detected from the waveform. Cut user "missed seeks" by 71%.
+        </p>
+      </div>
+      <dl class="featured__stats">
+        <div><dt>Role</dt><dd>Lead designer</dd></div>
+        <div><dt>Timeline</dt><dd>14 weeks</dd></div>
+        <div><dt>Output</dt><dd>iOS, Web</dd></div>
+      </dl>
+    </div>
+  </article>
+</section>
+
+<!-- ════════════════════ WORK LIST ════════════════════ -->
+<section class="container section" id="work" aria-label="Selected work">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:24px;flex-wrap:wrap;">
+    <div>
+      <span class="eyebrow">03 — Selected work</span>
+      <h2 class="display-lg" style="margin-top:16px;">A short list,<br />not a long one.</h2>
+    </div>
+    <p class="muted" style="max-width:300px;font-size:14px;line-height:1.5;text-align:right;">
+      <span class="note" style="position:relative;display:inline-block;margin:0;background:var(--accent-3);color:var(--ink);transform:none;">
+        Hick's Law: 6 options, not 60. Choice paralysis is a design failure.
+      </span>
+    </p>
+  </div>
+
+  <ul class="work-list reveal">
+    <li class="work-row">
+      <a href="case-pulse.html" class="work-row__link"
+         data-cursor="Open Pulse"
+         data-num="01"
+         data-color="linear-gradient(135deg, #FF4D1F 0%, #FFB199 100%)"
+         data-preview="Pulse — audio that snaps to the beat.">
+        <span class="work-row__num">01</span>
+        <span class="work-row__title">Pulse <em>— a music player for people who hate scrubbing</em></span>
+        <span class="work-row__tag">iOS · Motion</span>
+        <span class="work-row__year">2025</span>
+        <span class="work-row__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+    <li class="work-row">
+      <a href="#" class="work-row__link"
+         data-cursor="Coming soon"
+         data-num="02"
+         data-color="linear-gradient(135deg, #1A30E8 0%, #6B7DFF 100%)"
+         data-preview="Atlas — itineraries that fold.">
+        <span class="work-row__num">02</span>
+        <span class="work-row__title">Atlas <em>— travel itineraries that fold into your day</em></span>
+        <span class="work-row__tag">Web · Product</span>
+        <span class="work-row__year">2024</span>
+        <span class="work-row__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+    <li class="work-row">
+      <a href="#" class="work-row__link"
+         data-cursor="Coming soon"
+         data-num="03"
+         data-color="linear-gradient(135deg, #C6FF3D 0%, #6BC400 100%)"
+         data-preview="Tidepool — read without panic.">
+        <span class="work-row__num">03</span>
+        <span class="work-row__title">Tidepool <em>— a reading app with a focus mode you'd actually use</em></span>
+        <span class="work-row__tag">macOS · System</span>
+        <span class="work-row__year">2024</span>
+        <span class="work-row__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+    <li class="work-row">
+      <a href="#" class="work-row__link"
+         data-cursor="Coming soon"
+         data-num="04"
+         data-color="linear-gradient(135deg, #E91E63 0%, #FF8FAF 100%)"
+         data-preview="Bandstand — concerts, but in your hand.">
+        <span class="work-row__num">04</span>
+        <span class="work-row__title">Bandstand <em>— discover concerts the way friends recommend bands</em></span>
+        <span class="work-row__tag">iOS · Brand</span>
+        <span class="work-row__year">2023</span>
+        <span class="work-row__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+    <li class="work-row">
+      <a href="#" class="work-row__link"
+         data-cursor="Coming soon"
+         data-num="05"
+         data-color="linear-gradient(135deg, #0E0E0E 0%, #444 100%)"
+         data-preview="Calm Currency — money, less terrifying.">
+        <span class="work-row__num">05</span>
+        <span class="work-row__title">Calm Currency <em>— an FX app for travelers with a nervous stomach</em></span>
+        <span class="work-row__tag">iOS · Identity</span>
+        <span class="work-row__year">2023</span>
+        <span class="work-row__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+    <li class="work-row">
+      <a href="#" class="work-row__link"
+         data-cursor="Coming soon"
+         data-num="06"
+         data-color="linear-gradient(135deg, #FFB400 0%, #FF7B00 100%)"
+         data-preview="Folio — portfolios that stay out of the way.">
+        <span class="work-row__num">06</span>
+        <span class="work-row__title">Folio <em>— a portfolio template for photographers who don't enjoy CMSes</em></span>
+        <span class="work-row__tag">Web · Template</span>
+        <span class="work-row__year">2022</span>
+        <span class="work-row__arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+  </ul>
+
+  <p class="mono muted" style="font-size:11px;letter-spacing:0.08em;margin-top:32px;text-transform:uppercase;">
+    Six. That's the whole list. Earlier work lives in a private archive — <a href="contact.html" style="color:var(--accent);border-bottom:1px solid currentColor;">ask</a>.
+  </p>
+</section>
+
+<hr class="hair-line container" />
+
+<!-- ════════════════════ PROCESS ════════════════════ -->
+<section class="container section" id="process" aria-label="Process">
+  <div style="margin-bottom:40px;">
+    <span class="eyebrow">04 — Process</span>
+    <h2 class="display-lg" style="margin-top:16px;">Four moves,<br />in roughly this order.</h2>
+  </div>
+
+  <div class="process reveal">
+    <div class="process-step">
+      <span class="process-step__num">01 / Listen</span>
+      <h3 class="process-step__title">Hear the<br />real problem.</h3>
+      <p class="process-step__body">
+        Most briefs describe the symptom, not the disease. Week one is reading transcripts, sitting in support tickets, and asking the founder what keeps them up. I leave with a one-sentence problem statement — usually different from the one I arrived with.
+      </p>
+    </div>
+    <div class="process-step">
+      <span class="process-step__num">02 / Sketch</span>
+      <h3 class="process-step__title">Throw away<br />the first ten.</h3>
+      <p class="process-step__body">
+        Cheap, ugly, on paper. I draw the same screen ten ways before I open Figma. The first three are obvious, four through seven are bad, eight through ten are where the work lives. Then I rebuild the best one with intention.
+      </p>
+    </div>
+    <div class="process-step">
+      <span class="process-step__num">03 / Prototype</span>
+      <h3 class="process-step__title">If it can't<br />move, it's not real.</h3>
+      <p class="process-step__body">
+        I prototype in code — React, SwiftUI, sometimes Origami. Static pixels lie. A real prototype tells you instantly if a transition feels right at 60fps in a cold render or if it only worked in the slow-mo screenshot.
+      </p>
+    </div>
+    <div class="process-step">
+      <span class="process-step__num">04 / Ship</span>
+      <h3 class="process-step__title">Sit next to<br />the engineers.</h3>
+      <p class="process-step__body">
+        Hand-off documents are where motion design goes to die. I pair with the team during build — adjusting timings live, reviewing PRs, writing the spring config myself. Design isn't done at hand-off. Design is done when it's shipped and nobody's annoyed at it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ RESUME / TIMELINE ════════════════════ -->
+<section class="section section--dark dark" id="resume" aria-label="Experience">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:24px;flex-wrap:wrap;">
+      <div>
+        <span class="eyebrow">05 — Where I've been</span>
+        <h2 class="display-lg" style="margin-top:16px;color:var(--paper);">
+          Nine years of<br /><em class="serif italic" style="color:var(--accent);">small, fast teams.</em>
+        </h2>
+      </div>
+      <a href="#" class="btn btn--ghost" style="border-color:var(--hair-on-dark);color:var(--paper);" data-cursor="Download">Download CV <span class="arrow">↓</span></a>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timeline__year">2024 — Now</div>
+      <div class="timeline__items">
+        <div class="timeline__item timeline__item--current">
+          <div>
+            <div class="timeline__role">Independent practice</div>
+            <div class="timeline__where">Self · Lisbon, remote</div>
+            <p class="muted" style="margin-top:10px;font-size:14px;line-height:1.55;max-width:480px;">Selected engagements with founder-led teams. Two clients at a time, deep involvement, no asynchronous decks.</p>
+          </div>
+          <span class="timeline__time">Present</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top:32px;">
+      <div class="timeline__year">2021 — 2024</div>
+      <div class="timeline__items">
+        <div class="timeline__item">
+          <div>
+            <div class="timeline__role">Senior Motion Designer</div>
+            <div class="timeline__where">Linear · New York</div>
+            <p class="muted" style="margin-top:10px;font-size:14px;line-height:1.55;max-width:480px;">Led the motion system: command palette, issue transitions, focus mode. Authored the easing library still in use today.</p>
+          </div>
+          <span class="timeline__time">3 yr 2 mo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top:32px;">
+      <div class="timeline__year">2019 — 2021</div>
+      <div class="timeline__items">
+        <div class="timeline__item">
+          <div>
+            <div class="timeline__role">Product Designer</div>
+            <div class="timeline__where">The Browser Company · Brooklyn</div>
+            <p class="muted" style="margin-top:10px;font-size:14px;line-height:1.55;max-width:480px;">On the original Arc team. Tab transitions, sidebar interactions, the little jiggle when you pin something.</p>
+          </div>
+          <span class="timeline__time">2 yr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top:32px;">
+      <div class="timeline__year">2017 — 2019</div>
+      <div class="timeline__items">
+        <div class="timeline__item">
+          <div>
+            <div class="timeline__role">Designer &amp; sometime engineer</div>
+            <div class="timeline__where">Smallhouse Records · Seoul</div>
+            <p class="muted" style="margin-top:10px;font-size:14px;line-height:1.55;max-width:480px;">Sleeves, websites, projection visuals for live sets. Closed in 2019. Best job I ever had.</p>
+          </div>
+          <span class="timeline__time">2 yr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top:32px;">
+      <div class="timeline__year">2015 — 2017</div>
+      <div class="timeline__items">
+        <div class="timeline__item">
+          <div>
+            <div class="timeline__role">BFA, Communication Design</div>
+            <div class="timeline__where">RISD · Providence</div>
+            <p class="muted" style="margin-top:10px;font-size:14px;line-height:1.55;max-width:480px;">Thesis on perceived weight in interface motion. Adviser still emails about it.</p>
+          </div>
+          <span class="timeline__time">2 yr</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ TOOLS ════════════════════ -->
+<section class="container section" id="tools" aria-label="Tools and stack">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:24px;flex-wrap:wrap;">
+    <div>
+      <span class="eyebrow">06 — Tools &amp; stack</span>
+      <h2 class="display-lg" style="margin-top:16px;">What's on my<br />desk this year.</h2>
+    </div>
+    <p class="muted serif italic" style="font-size:22px;max-width:340px;text-align:right;">
+      "Use what makes you faster. Throw away what doesn't."
+    </p>
+  </div>
+
+  <div class="tools-grid reveal">
+    <div class="tool">
+      <span class="tool__use">Design</span>
+      <span class="tool__name">Figma</span>
+      <span class="tool__love">Daily. Begrudgingly.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">Prototype</span>
+      <span class="tool__name">Origami</span>
+      <span class="tool__love">For real motion.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">Code</span>
+      <span class="tool__name">React + Framer Motion</span>
+      <span class="tool__love">When it has to ship.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">Code</span>
+      <span class="tool__name">SwiftUI</span>
+      <span class="tool__love">Native or nothing.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">Render</span>
+      <span class="tool__name">After Effects</span>
+      <span class="tool__love">For pitches only.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">3D</span>
+      <span class="tool__name">Spline</span>
+      <span class="tool__love">When clients ask.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">Notes</span>
+      <span class="tool__name">A paper notebook</span>
+      <span class="tool__love">Field Notes, dotted.</span>
+    </div>
+    <div class="tool">
+      <span class="tool__use">Brain</span>
+      <span class="tool__name">Walking, mostly</span>
+      <span class="tool__love">8–10k a day.</span>
+    </div>
+  </div>
+</section>
+
+<hr class="hair-line container" />
+
+<!-- ════════════════════ CONTACT TEASER ════════════════════ -->
+<section class="container section" aria-label="Get in touch">
+  <div class="contact-teaser reveal">
+    <h2 class="contact-teaser__heading display-lg">
+      Let's make<br />something <em class="italic">move.</em>
+    </h2>
+    <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
+      <a href="contact.html" class="btn btn--accent" data-cursor="Start a project" style="padding:22px 32px;font-size:18px;">
+        Start a project <span class="arrow">→</span>
+      </a>
+      <a href="mailto:juno@junopark.studio" class="mono muted" style="font-size:13px;letter-spacing:0.04em;" data-cursor="Copy email">
+        or just say hi → juno@junopark.studio
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        Juno Park.<br />
+        <span style="color:var(--accent);">Available Q3.</span>
+      </div>
+      <div class="footer__col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html" data-cursor="Home">Work</a></li>
+          <li><a href="about.html" data-cursor="About">About</a></li>
+          <li><a href="case-pulse.html" data-cursor="Case study">Pulse case</a></li>
+          <li><a href="contact.html" data-cursor="Contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Elsewhere</h4>
+        <ul>
+          <li><a href="#" data-cursor="External">Read.cv ↗</a></li>
+          <li><a href="#" data-cursor="External">Are.na ↗</a></li>
+          <li><a href="#" data-cursor="External">Github ↗</a></li>
+          <li><a href="#" data-cursor="External">Notes ↗</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Says hi</h4>
+        <ul>
+          <li><a href="mailto:juno@junopark.studio">juno@junopark.studio</a></li>
+          <li><a href="#">+351 91 234 5678</a></li>
+          <li class="muted" style="color:var(--muted-on-dark);">Lisbon · UTC&nbsp;+0</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Juno Park. Built by hand, in Lisbon.</span>
+      <span>v07 — last edit <span data-time>—:—</span> WET</span>
+    </div>
+  </div>
+</footer>
+
+<!-- UX notes — floating annotations to demonstrate principles -->
+<div class="note" style="top:38vh; right:4vw; max-width:170px;">
+  Fitts's Law: the CTA is a fat pill, 48px tall. Easy to hit while reading.
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
