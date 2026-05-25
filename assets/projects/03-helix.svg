@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="grid3" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1.2" fill="#111" opacity="0.25"></circle>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="#faf6ea"></rect>
+  <rect width="800" height="500" fill="url(#grid3)"></rect>
+
+  
+  <text x="60" y="80" font-family="Instrument Serif, serif" font-size="36" fill="#111">Helix <tspan font-style="italic">DS</tspan></text>
+  <text x="60" y="106" font-family="Inter, sans-serif" font-size="12" fill="#111" opacity="0.5" letter-spacing="2">SYSTEM · v3.2 · 110 COMPONENTS</text>
+  <line x1="60" y1="124" x2="220" y2="124" stroke="#111" stroke-width="2"></line>
+
+  
+  <g transform="translate(60 160)">
+    
+    <rect x="0" y="0" width="120" height="36" rx="18" fill="#111"></rect>
+    <text x="60" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#faf6ea" font-weight="500">Primary</text>
+
+    <rect x="130" y="0" width="120" height="36" rx="18" fill="transparent" stroke="#111" stroke-width="1.5"></rect>
+    <text x="190" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#111" font-weight="500">Secondary</text>
+
+    <rect x="260" y="0" width="120" height="36" rx="18" fill="#FDFE53" stroke="#111" stroke-width="1.5"></rect>
+    <text x="320" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#111" font-weight="500">Accent</text>
+
+    
+    <rect x="0" y="60" width="380" height="40" rx="8" fill="#fff" stroke="#111" stroke-width="1.5"></rect>
+    <text x="14" y="84" font-family="Inter, sans-serif" font-size="13" fill="#111" opacity="0.4">Patient lookup…</text>
+    <circle cx="358" cy="80" r="6" fill="none" stroke="#111" stroke-width="1.5"></circle>
+    <line x1="362" y1="84" x2="368" y2="90" stroke="#111" stroke-width="1.5" stroke-linecap="round"></line>
+
+    
+    <rect x="0" y="124" width="180" height="120" rx="12" fill="#fff" stroke="#111" stroke-width="1.5"></rect>
+    <rect x="14" y="138" width="60" height="20" rx="10" fill="#FDFE53" stroke="#111" stroke-width="1"></rect>
+    <text x="44" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#111" font-weight="600">CARD</text>
+    <rect x="14" y="172" width="140" height="10" rx="2" fill="#111"></rect>
+    <rect x="14" y="190" width="100" height="6" rx="3" fill="#111" opacity="0.4"></rect>
+    <rect x="14" y="202" width="120" height="6" rx="3" fill="#111" opacity="0.4"></rect>
+    <rect x="14" y="220" width="60" height="14" rx="7" fill="#111"></rect>
+
+    
+    <g transform="translate(210 124)">
+      <text x="0" y="14" font-family="Inter, sans-serif" font-size="9" fill="#111" opacity="0.5" letter-spacing="2">TOKENS</text>
+      <rect x="0" y="24" width="22" height="22" rx="4" fill="#111"></rect>
+      <rect x="28" y="24" width="22" height="22" rx="4" fill="#5a574e"></rect>
+      <rect x="56" y="24" width="22" height="22" rx="4" fill="#FDFE53" stroke="#111"></rect>
+      <rect x="84" y="24" width="22" height="22" rx="4" fill="#FF4E3B"></rect>
+      <rect x="112" y="24" width="22" height="22" rx="4" fill="#faf6ea" stroke="#111"></rect>
+      <rect x="140" y="24" width="22" height="22" rx="4" fill="#fff" stroke="#111"></rect>
+
+      <text x="0" y="68" font-family="Inter, sans-serif" font-size="9" fill="#111" opacity="0.5" letter-spacing="2">RADII</text>
+      <rect x="0" y="78" width="22" height="22" fill="#111"></rect>
+      <rect x="28" y="78" width="22" height="22" rx="3" fill="#111"></rect>
+      <rect x="56" y="78" width="22" height="22" rx="6" fill="#111"></rect>
+      <rect x="84" y="78" width="22" height="22" rx="11" fill="#111"></rect>
+
+      <text x="0" y="124" font-family="Inter, sans-serif" font-size="9" fill="#111" opacity="0.5" letter-spacing="2">TYPE SCALE</text>
+      <text x="0" y="146" font-family="Inter, sans-serif" font-size="22" fill="#111" font-weight="600">Aa</text>
+      <text x="32" y="146" font-family="Inter, sans-serif" font-size="18" fill="#111" font-weight="500">Aa</text>
+      <text x="58" y="146" font-family="Inter, sans-serif" font-size="14" fill="#111">Aa</text>
+      <text x="78" y="146" font-family="Inter, sans-serif" font-size="11" fill="#111">Aa</text>
+      <text x="94" y="146" font-family="Inter, sans-serif" font-size="9" fill="#111">Aa</text>
+    </g>
+  </g>
+
+  
+  <g transform="translate(640 110) rotate(8)">
+    <rect x="-70" y="-22" width="140" height="44" rx="22" fill="#FDFE53" stroke="#111" stroke-width="2"></rect>
+    <text x="0" y="-2" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#111" letter-spacing="2">CONTRIBUTION</text>
+    <text x="0" y="14" text-anchor="middle" font-family="Instrument Serif, serif" font-size="16" font-style="italic" fill="#111">no exceptions</text>
+  </g>
+</svg>
