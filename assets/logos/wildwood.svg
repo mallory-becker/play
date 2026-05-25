@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+    <rect width="400" height="400" rx="48" fill="#FF4E3B"></rect>
+    
+    <g transform="translate(200 180)">
+      <circle r="86" fill="none" stroke="#faf6ea" stroke-width="3"></circle>
+      <g fill="#faf6ea">
+        <ellipse cx="0" cy="-10" rx="10" ry="22" transform="rotate(-30)"></ellipse>
+        <ellipse cx="-22" cy="-2" rx="9" ry="18" transform="rotate(-80 -22 -2)"></ellipse>
+        <ellipse cx="22" cy="-2" rx="9" ry="18" transform="rotate(80 22 -2)"></ellipse>
+        <ellipse cx="0" cy="26" rx="10" ry="20"></ellipse>
+      </g>
+    </g>
+    <text x="200" y="310" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="48" fill="#faf6ea">Wildwood</text>
+    <text x="200" y="340" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#faf6ea" opacity="0.85" letter-spacing="5">COFFEE CO. · BKLYN</text>
+  </svg>
