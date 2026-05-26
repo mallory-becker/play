@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ware2Go OMS — A Year in Pictures</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111111;
+    --ink-soft: #2b2a26;
+    --paper: #f6f1e3;
+    --paper-2: #efe9d7;
+    --cream: #faf6ea;
+    --stage: #0e0d0b;
+    --stage-2: #181714;
+    --muted: #9a948a;
+    --pop: #FDFE53;
+    --pop-deep: #E8E92E;
+    --accent-2: #FF6B5B;
+    --sans: "Inter", system-ui, sans-serif;
+    --serif: "Instrument Serif", "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+  body {
+    font-family: var(--sans);
+    color: var(--paper);
+    background: var(--stage);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--pop); color: var(--ink); }
+
+  /* ----- top bar ----- */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 60;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 32px;
+    pointer-events: none;
+  }
+  .topbar a, .topbar button { pointer-events: auto; }
+  .topbar .left {
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--serif); font-size: 22px; letter-spacing: -0.01em;
+  }
+  .topbar .bullet {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--pop);
+    box-shadow: 0 0 0 4px rgba(253,254,83,0.15);
+  }
+  .topbar .crumb {
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(246,241,227,0.55);
+    border-left: 1px solid rgba(246,241,227,0.2);
+    padding-left: 14px;
+  }
+  .topbar .right {
+    display: flex; align-items: center; gap: 18px;
+    font-size: 12px; color: rgba(246,241,227,0.65);
+  }
+  .topbar .counter {
+    font-family: var(--serif); font-style: italic;
+    font-size: 18px;
+    color: var(--paper);
+    font-variant-numeric: tabular-nums;
+    display: inline-flex; align-items: baseline; gap: 6px;
+  }
+  .topbar .counter .total {
+    font-family: var(--sans); font-style: normal;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .topbar .back {
+    text-decoration: none;
+    color: var(--paper);
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(246,241,227,0.25);
+    border-radius: 999px;
+    padding: 8px 14px;
+    background: rgba(20,20,20,0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: background .2s ease, border-color .2s ease, color .2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .topbar .back:hover {
+    background: var(--pop); color: var(--ink); border-color: var(--pop);
+  }
+  .topbar .play-toggle {
+    background: rgba(20,20,20,0.6);
+    color: var(--paper);
+    border: 1px solid rgba(246,241,227,0.25);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .play-toggle:hover { background: var(--pop); color: var(--ink); border-color: var(--pop); }
+  .play-toggle .icon { width: 10px; height: 10px; display: inline-block; }
+
+  /* ----- the stage ----- */
+  .stage {
+    position: fixed; inset: 0;
+    background: var(--stage);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* subtle dotted vignette behind the image */
+  .stage::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.5) 100%),
+      radial-gradient(rgba(246,241,227,0.04) 1px, transparent 1px);
+    background-size: auto, 22px 22px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .frame {
+    position: absolute;
+    inset: 84px 64px 240px 64px;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1;
+  }
+  @media (max-width: 900px) {
+    .frame { inset: 70px 18px 260px 18px; }
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform, opacity, clip-path;
+  }
+  .slide img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,0.6),
+      0 12px 24px -10px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(246,241,227,0.06);
+    background: #fff;
+  }
+  /* research/ideation boards look better against paper */
+  .slide.research img,
+  .slide.ideation img {
+    background: var(--paper);
+    padding: 12px;
+  }
+  .slide.active   { opacity: 1; visibility: visible; z-index: 2; }
+  .slide.leaving  { opacity: 1; visibility: visible; z-index: 1; }
+
+  /* ---- INCOMING transitions ---- */
+  @keyframes ws-push-left-in   { from { transform: translateX(8%); opacity: 0; }  to { transform: translateX(0); opacity: 1; } }
+  @keyframes ws-push-left-out  { from { transform: translateX(0); opacity: 1; }   to { transform: translateX(-8%); opacity: 0; } }
+
+  @keyframes ws-zoom-rotate-in  { from { transform: scale(1.18) rotate(-2deg); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1) rotate(0); opacity: 1; } }
+  @keyframes ws-zoom-rotate-out { from { transform: scale(1); opacity: 1; } to { transform: scale(0.88); opacity: 0; } }
+
+  @keyframes ws-slide-up-in    { from { transform: translateY(10%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes ws-slide-up-out   { from { transform: translateY(0); opacity: 1; }   to { transform: translateY(-6%); opacity: 0; } }
+
+  @keyframes ws-scale-pop-in   { 0% { transform: scale(0.6); opacity: 0; } 65% { transform: scale(1.04); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes ws-scale-pop-out  { from { transform: scale(1); opacity: 1; } to { transform: scale(1.08); opacity: 0; } }
+
+  @keyframes ws-reveal-in {
+    0%   { clip-path: inset(100% 0 0 0); transform: scale(1.03); opacity: 1; }
+    100% { clip-path: inset(0 0 0 0);     transform: scale(1);    opacity: 1; }
+  }
+  @keyframes ws-reveal-out { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.95); } }
+
+  .slide.active.t-push-left   { animation: ws-push-left-in   .95s cubic-bezier(.2,.7,.2,1) both; }
+  .slide.leaving.t-push-left  { animation: ws-push-left-out  .85s cubic-bezier(.2,.7,.2,1) both; }
+  .slide.active.t-zoom-rotate  { animation: ws-zoom-rotate-in  1.05s cubic-bezier(.2,.7,.2,1) both; }
+  .slide.leaving.t-zoom-rotate { animation: ws-zoom-rotate-out .7s ease-in both; }
+  .slide.active.t-slide-up   { animation: ws-slide-up-in   .9s cubic-bezier(.2,.7,.2,1) both; }
+  .slide.leaving.t-slide-up  { animation: ws-slide-up-out  .8s cubic-bezier(.2,.7,.2,1) both; }
+  .slide.active.t-scale-pop   { animation: ws-scale-pop-in   1.0s cubic-bezier(.34,1.56,.64,1) both; }
+  .slide.leaving.t-scale-pop  { animation: ws-scale-pop-out  .55s ease-in both; }
+  .slide.active.t-reveal   { animation: ws-reveal-in   1.1s cubic-bezier(.2,.7,.2,1) both; }
+  .slide.leaving.t-reveal  { animation: ws-reveal-out  .55s ease-in both; }
+
+  /* yellow flash band (Ideation reveal) */
+  .stage .flash {
+    position: absolute; inset: 0;
+    background: var(--pop);
+    opacity: 0;
+    z-index: 6;
+    pointer-events: none;
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  @keyframes ws-flash-yellow {
+    0%   { transform: scaleX(0); opacity: 1; transform-origin: left center; }
+    45%  { transform: scaleX(1); opacity: 1; transform-origin: left center; }
+    55%  { transform: scaleX(1); opacity: 1; transform-origin: right center; }
+    100% { transform: scaleX(0); opacity: 1; transform-origin: right center; }
+  }
+  .stage.flashing .flash { animation: ws-flash-yellow 1.1s cubic-bezier(.7,0,.3,1) both; }
+
+  /* ---- caption rail ---- */
+  .caption-rail {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    padding: 120px 64px 56px;
+    pointer-events: none;
+    /* the fade under text */
+    background: linear-gradient(180deg,
+      rgba(14,13,11,0) 0%,
+      rgba(14,13,11,0.45) 32%,
+      rgba(14,13,11,0.86) 70%,
+      rgba(14,13,11,0.96) 100%);
+  }
+  @media (max-width: 900px) {
+    .caption-rail { padding: 100px 22px 36px; }
+  }
+  .cap {
+    position: absolute;
+    left: 64px; right: 64px; bottom: 56px;
+    max-width: 880px;
+    display: flex; flex-direction: column; gap: 14px;
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: auto;
+  }
+  @media (max-width: 900px) {
+    .cap { left: 22px; right: 22px; bottom: 36px; }
+  }
+  .cap.active {
+    animation: ws-cap-in .85s cubic-bezier(.2,.7,.2,1) .15s both;
+  }
+  .cap.leaving {
+    animation: ws-cap-out .35s ease-in both;
+  }
+  @keyframes ws-cap-in  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes ws-cap-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-6px); } }
+
+  .cap .phase {
+    display: inline-flex; align-items: center; gap: 10px;
+    width: max-content;
+    font-family: var(--sans);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 6px 12px 6px 10px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid rgba(246,241,227,0.18);
+  }
+  .cap .phase .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--pop);
+    box-shadow: 0 0 0 3px rgba(253,254,83,0.25);
+  }
+  .cap[data-phase="Before"]   .phase { background: #2b2a26; color: #fdfae6; }
+  .cap[data-phase="Before"]   .phase .dot { background: var(--accent-2); box-shadow: 0 0 0 3px rgba(255,107,91,0.25); }
+  .cap[data-phase="Research"] .phase { background: var(--paper); color: var(--ink); border-color: rgba(17,17,17,0.18); }
+  .cap[data-phase="Research"] .phase .dot { background: var(--ink); box-shadow: 0 0 0 3px rgba(17,17,17,0.12); }
+  .cap[data-phase="Ideation"] .phase { background: var(--pop); color: var(--ink); border-color: rgba(17,17,17,0.4); }
+  .cap[data-phase="Ideation"] .phase .dot { background: var(--ink); box-shadow: 0 0 0 3px rgba(17,17,17,0.15); }
+  .cap[data-phase="After"]    .phase { background: var(--ink); color: var(--paper); }
+  .cap[data-phase="After"]    .phase .dot { background: var(--pop); box-shadow: 0 0 0 3px rgba(253,254,83,0.3); }
+
+  .cap h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(34px, 4.4vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    margin: 0;
+    color: var(--paper);
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+  .cap h2 i { color: rgba(246,241,227,0.78); }
+  .cap h2 .hl {
+    background: linear-gradient(180deg, transparent 60%, var(--pop) 60% 94%, transparent 94%);
+    padding: 0 0.06em;
+    color: var(--paper);
+  }
+  .cap p {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.55;
+    color: rgba(246,241,227,0.78);
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+  .cap .label {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(246,241,227,0.55);
+    letter-spacing: 0.01em;
+    margin-top: 4px;
+  }
+
+  /* segmented progress bar */
+  .progress {
+    position: fixed;
+    left: 64px; right: 64px; bottom: 32px;
+    z-index: 50;
+    display: flex; gap: 6px;
+    pointer-events: none;
+  }
+  @media (max-width: 900px) { .progress { left: 22px; right: 22px; bottom: 20px; } }
+  .progress span {
+    flex: 1; height: 3px;
+    background: rgba(246,241,227,0.18);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress span::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--pop);
+    transform-origin: left center;
+    transform: scaleX(0);
+  }
+  .progress span.done::after { transform: scaleX(1); }
+  .progress span.active::after {
+    animation: ws-prog 7500ms linear forwards;
+  }
+  @keyframes ws-prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .stage.paused .progress span.active::after { animation-play-state: paused; }
+
+  /* big phase watermark on the edge — just a little texture */
+  .phase-watermark {
+    position: fixed;
+    left: 32px; bottom: 64px;
+    z-index: 30;
+    pointer-events: none;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(120px, 18vw, 260px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: rgba(246,241,227,0.05);
+    transition: color .8s ease;
+    user-select: none;
+  }
+  @media (max-width: 900px) { .phase-watermark { display: none; } }
+  .stage[data-phase="Ideation"] .phase-watermark { color: rgba(253,254,83,0.10); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">
+    <span class="bullet"></span>
+    <span>Mallory Becker</span>
+    <span class="crumb">Case study · Ware2Go OMS</span>
+  </div>
+  <div class="right">
+    <span class="counter"><span class="cur">01</span><span class="total">of 08</span></span>
+    <button class="play-toggle" id="play-toggle" type="button">
+      <svg class="icon" viewBox="0 0 10 10" fill="currentColor"><rect x="2" y="1.5" width="2" height="7" rx="0.5"/><rect x="6" y="1.5" width="2" height="7" rx="0.5"/></svg>
+      <span>Pause</span>
+    </button>
+    <a class="back" href="Portfolio.html">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M7 2L3 6l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to portfolio
+    </a>
+  </div>
+</div>
+
+<div class="stage" id="stage" data-phase="Before">
+  <div class="phase-watermark" id="watermark">Before</div>
+  <div class="frame" id="frame">
+    <div class="slide before t-push-left"   data-i="0" data-phase="Before"   data-trans="push-left">
+      <img src="assets/projects/ware2go-story/01-original-summary.png" alt="Original outbound orders summary, 2022"/>
+    </div>
+    <div class="slide before t-push-left"   data-i="1" data-phase="Before"   data-trans="push-left">
+      <img src="assets/projects/ware2go-story/02-original-dashboard.png" alt="Original dashboard with empty states"/>
+    </div>
+    <div class="slide research t-zoom-rotate" data-i="2" data-phase="Research" data-trans="zoom-rotate">
+      <img src="assets/projects/ware2go-story/03-research.png" alt="Competitor UI exploration board in Figma"/>
+    </div>
+    <div class="slide ideation t-reveal" data-i="3" data-phase="Ideation" data-trans="flash-yellow">
+      <img src="assets/projects/ware2go-story/04-ideation.png" alt="FVU information architecture pitch in Figma"/>
+    </div>
+    <div class="slide after t-reveal"  data-i="4" data-phase="After"    data-trans="reveal">
+      <img src="assets/projects/ware2go-story/05-new-summary.png" alt="Redesigned outbound orders summary"/>
+    </div>
+    <div class="slide after t-slide-up"   data-i="5" data-phase="After"    data-trans="slide-up">
+      <img src="assets/projects/ware2go-story/06-new-details.png" alt="Redesigned order details overlay"/>
+    </div>
+    <div class="slide after t-scale-pop"  data-i="6" data-phase="After"    data-trans="scale-pop">
+      <img src="assets/projects/ware2go-story/07-new-datepicker.png" alt="Redesigned release date picker"/>
+    </div>
+    <div class="slide after t-push-left"  data-i="7" data-phase="After"    data-trans="push-left">
+      <img src="assets/projects/ware2go-story/08-new-endcontinue.png" alt="Hold and release confirmation screen"/>
+    </div>
+  </div>
+
+  <div class="flash" aria-hidden="true"></div>
+</div>
+
+<!-- Caption rail with gradient fade underneath. One <article> per slide. Edit copy freely. -->
+<div class="caption-rail">
+  <article class="cap" data-i="0" data-phase="Before">
+    <span class="phase"><span class="dot"></span>Before · 2022</span>
+    <h2>Eight hours a day, <i>this was the view.</i></h2>
+    <p>Add caption text here — what was wrong with the original outbound summary, what the team kept hearing in interviews, why it had to change.</p>
+    <span class="label">01 · Original outbound summary</span>
+  </article>
+
+  <article class="cap" data-i="1" data-phase="Before">
+    <span class="phase"><span class="dot"></span>Before · 2022</span>
+    <h2>And <i>this</i> was the homepage.</h2>
+    <p>Add caption text here — empty states, illustrations covering the actual work, hierarchy that hid the product from the people using it.</p>
+    <span class="label">02 · Original dashboard</span>
+  </article>
+
+  <article class="cap" data-i="2" data-phase="Research">
+    <span class="phase"><span class="dot"></span>Research</span>
+    <h2>Then I went looking <i>at the competition.</i></h2>
+    <p>Add caption text here — competitor teardown, what "good" looks like in B2B logistics, the patterns worth borrowing, the ones not to repeat.</p>
+    <span class="label">03 · Competitor UI exploration</span>
+  </article>
+
+  <article class="cap" data-i="3" data-phase="Ideation">
+    <span class="phase"><span class="dot"></span>Ideation</span>
+    <h2>And <span class="hl">pitched a new architecture</span> to the CTO.</h2>
+    <p>Add caption text here — information architecture, navigation patterns, the thesis you presented, how you got approval to move forward.</p>
+    <span class="label">04 · FVU information architecture</span>
+  </article>
+
+  <article class="cap" data-i="4" data-phase="After">
+    <span class="phase"><span class="dot"></span>After</span>
+    <h2>A brand-forward <i>outbound orders page.</i></h2>
+    <p>Add caption text here — dense where density helps, breathing room where it doesn't, status colors doing the heavy lifting, filters surfaced up.</p>
+    <span class="label">05 · Redesigned outbound summary</span>
+  </article>
+
+  <article class="cap" data-i="5" data-phase="After">
+    <span class="phase"><span class="dot"></span>After</span>
+    <h2>Details that <i>actually contain the details.</i></h2>
+    <p>Add caption text here — a contextual overlay that opens over the list so merchants never lose their place; tabs for SKUs, options, and shipping.</p>
+    <span class="label">06 · Order detail overlay</span>
+  </article>
+
+  <article class="cap" data-i="6" data-phase="After">
+    <span class="phase"><span class="dot"></span>After</span>
+    <h2>A friendlier <i>release calendar.</i></h2>
+    <p>Add caption text here — operations teams do this hundreds of times a day. The interface should feel like a partner, not paperwork.</p>
+    <span class="label">07 · Hold & release date picker</span>
+  </article>
+
+  <article class="cap" data-i="7" data-phase="After">
+    <span class="phase"><span class="dot"></span>After</span>
+    <h2>Confirmation that <i>doesn't shrug at you.</i></h2>
+    <p>Add caption text here — clear next steps, a friendly illustration, undo always within reach. Tools that sweat the small stuff let users sweat less.</p>
+    <span class="label">08 · Hold confirmation</span>
+  </article>
+</div>
+
+<div class="progress" id="progress">
+  <span data-i="0"></span><span data-i="1"></span><span data-i="2"></span><span data-i="3"></span>
+  <span data-i="4"></span><span data-i="5"></span><span data-i="6"></span><span data-i="7"></span>
+</div>
+
+<script>
+  const SLIDE_MS = 7500; // 8 × 7500 = 60s
+  const stage    = document.getElementById('stage');
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const caps     = Array.from(document.querySelectorAll('.cap'));
+  const segments = Array.from(document.querySelectorAll('.progress span'));
+  const watermark= document.getElementById('watermark');
+  const counterEl= document.querySelector('.counter .cur');
+  const counterT = document.querySelector('.counter .total');
+  const flash    = stage.querySelector('.flash');
+  const playBtn  = document.getElementById('play-toggle');
+
+  counterT.textContent = `of ${String(slides.length).padStart(2,'0')}`;
+
+  let i = 0;
+  let timer = null;
+  let paused = false;
+
+  // restore last position so refreshes pick up where you left off
+  try {
+    const saved = parseInt(localStorage.getItem('w2g-story-i'), 10);
+    if (!isNaN(saved) && saved >= 0 && saved < slides.length) i = saved;
+  } catch (e) {}
+
+  // initial state
+  slides[i].classList.add('active');
+  caps[i].classList.add('active');
+  segments[i].classList.add('active');
+  for (let k = 0; k < i; k++) segments[k].classList.add('done');
+  stage.setAttribute('data-phase', slides[i].dataset.phase);
+  watermark.textContent = slides[i].dataset.phase;
+  counterEl.textContent = String(i + 1).padStart(2, '0');
+
+  const setCounter = (idx) => {
+    counterEl.textContent = String(idx + 1).padStart(2, '0');
+  };
+
+  const advance = () => {
+    const nextIdx = (i + 1) % slides.length;
+    const cur = slides[i];
+    const nxt = slides[nextIdx];
+    const curCap = caps[i];
+    const nxtCap = caps[nextIdx];
+
+    cur.classList.remove('active');
+    cur.classList.add('leaving');
+    curCap.classList.remove('active');
+    curCap.classList.add('leaving');
+
+    const doSwap = () => {
+      nxt.classList.add('active');
+      nxtCap.classList.add('active');
+      stage.setAttribute('data-phase', nxt.dataset.phase);
+      watermark.textContent = nxt.dataset.phase;
+      setCounter(nextIdx);
+    };
+
+    // dramatic yellow band swipe when entering "Ideation"
+    if (nxt.dataset.trans === 'flash-yellow') {
+      stage.classList.add('flashing');
+      flash.addEventListener('animationend', () => {
+        stage.classList.remove('flashing');
+      }, { once: true });
+      setTimeout(doSwap, 480);
+    } else {
+      doSwap();
+    }
+
+    // cleanup leaving classes after their anims
+    setTimeout(() => {
+      cur.classList.remove('leaving');
+      curCap.classList.remove('leaving');
+    }, 1200);
+
+    // progress
+    segments[i].classList.remove('active');
+    segments[i].classList.add('done');
+    if (nextIdx === 0) {
+      segments.forEach(s => { s.classList.remove('done'); s.classList.remove('active'); });
+    }
+    segments[nextIdx].classList.add('active');
+
+    i = nextIdx;
+    try { localStorage.setItem('w2g-story-i', String(i)); } catch (e) {}
+  };
+
+  const start = () => { if (!timer && !paused) timer = setInterval(advance, SLIDE_MS); };
+  const stop  = () => { if (timer) { clearInterval(timer); timer = null; } };
+  start();
+
+  // pause/resume
+  const setPaused = (p) => {
+    paused = p;
+    stage.classList.toggle('paused', p);
+    if (p) { stop(); playBtn.querySelector('span').textContent = 'Play'; playBtn.querySelector('svg').innerHTML = '<path d="M2.5 1.5L8.5 5L2.5 8.5Z" fill="currentColor"/>'; }
+    else   { start(); playBtn.querySelector('span').textContent = 'Pause'; playBtn.querySelector('svg').innerHTML = '<rect x="2" y="1.5" width="2" height="7" rx="0.5"/><rect x="6" y="1.5" width="2" height="7" rx="0.5"/>'; }
+  };
+  playBtn.addEventListener('click', () => setPaused(!paused));
+
+  // keyboard navigation: ← → space
+  document.addEventListener('keydown', (e) => {
+    if (e.key === ' ') { e.preventDefault(); setPaused(!paused); }
+    else if (e.key === 'ArrowRight') { stop(); advance(); start(); }
+    else if (e.key === 'ArrowLeft') {
+      stop();
+      // go back: cycle backward
+      const curCap = caps[i]; const cur = slides[i];
+      cur.classList.remove('active'); curCap.classList.remove('active');
+      i = (i - 1 + slides.length) % slides.length;
+      slides[i].classList.add('active');
+      caps[i].classList.add('active');
+      stage.setAttribute('data-phase', slides[i].dataset.phase);
+      watermark.textContent = slides[i].dataset.phase;
+      setCounter(i);
+      // reset progress
+      segments.forEach(s => { s.classList.remove('done'); s.classList.remove('active'); });
+      for (let k = 0; k < i; k++) segments[k].classList.add('done');
+      segments[i].classList.add('active');
+      start();
+    }
+  });
+
+  // click anywhere on a slide toggles pause
+  stage.addEventListener('click', (e) => {
+    // don't pause when clicking the top-bar controls
+    if (e.target.closest('.topbar')) return;
+    setPaused(!paused);
+  });
+</script>
+
+</body>
+</html>
