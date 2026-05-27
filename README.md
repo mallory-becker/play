@@ -8,8 +8,7 @@ Senior Product Designer · 2026 portfolio. A single-page hand-built site featuri
 
 ## What's here
 
-- `index.html` — the published site (entry point for GitHub Pages)
-- `Portfolio.html` — working source file, identical to `index.html`
+- `index.html` — the entire site (entry point for GitHub Pages)
 - `assets/` — images, logos, resume PDF
   - `assets/projects/` — per-case screenshots and slideshow frames
   - `assets/logos/` — company logos
