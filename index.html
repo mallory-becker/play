@@ -58,12 +58,22 @@
 
   /* ---------- top nav ---------- */
   .nav {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: rgba(246, 241, 227, 0.78);
-    border-bottom: 1px solid rgba(17,17,17,0.08);
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 150;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    background: rgba(246, 241, 227, 0.94);
+    border-bottom: 1px solid rgba(17,17,17,0.12);
+    box-shadow: 0 1px 0 rgba(17,17,17,0.04), 0 8px 24px -16px rgba(17,17,17,0.18);
   }
+  /* nav is sticky in flow — no body offset needed */
+  body { padding-top: 0; }
+  html { scroll-padding-top: 80px; }
   .nav .row {
     display: flex; align-items: center; justify-content: space-between;
     height: 64px; gap: 24px;
@@ -273,7 +283,9 @@
     .nav-drawer { display: block; }
   }
 
-  /* ---------- hero ---------- */
+  @media (max-width: 720px) {
+    .ticker { display: none; }
+  }
   .hero {
     padding: 48px 0 80px;
     position: relative;
@@ -996,10 +1008,14 @@
     .about .about-photo {
       position: relative;
       top: auto; right: auto;
-      width: 100%;
-      max-width: 260px;
-      margin: 0 auto -16px;
+      width: 280px;
+      margin: 0 auto;
       display: block;
+    }
+  }
+  @media (max-width: 720px) {
+    .about .about-photo {
+      display: none;
     }
   }
   .about p {
@@ -1175,7 +1191,7 @@
 
   /* ---------- project detail overlay ---------- */
   .overlay {
-    position: fixed; inset: 0;
+    position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
     background: var(--paper);
     z-index: 100;
     transform: translateY(100%);
@@ -1203,6 +1219,37 @@
     color: var(--ink);
   }
   .overlay-bar .close:hover { background: var(--ink); color: var(--paper); }
+
+  /* floating close button — only on phone-size screens */
+  .overlay-fab-close {
+    display: none;
+    position: fixed;
+    right: 18px; bottom: 18px;
+    z-index: 110;
+    appearance: none;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    border: 2px solid var(--paper);
+    box-shadow: 0 8px 22px -8px rgba(0,0,0,0.5), 0 0 0 2px rgba(17,17,17,0.08);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: transform .18s ease, background .18s ease;
+  }
+  .overlay-fab-close:hover { transform: translateY(-2px); background: var(--accent-2); }
+  .overlay-fab-close:active { transform: translateY(0); }
+  .overlay-fab-close svg { width: 20px; height: 20px; }
+
+  @media (max-width: 720px) {
+    /* unstick everything inside the overlay on phone — content stays in flow */
+    .overlay-bar { position: static; height: auto; padding: 14px 22px; }
+    .overlay-bar .close { display: none; }
+    body.project-open #ov-fab-close,
+    body.belief-open #bov-fab-close { display: inline-flex; }
+  }
 
   .detail { padding: 56px 40px 96px; }
   .detail-hero {
@@ -1926,6 +1973,9 @@
   }
   @media (max-width: 900px) { .case-body { grid-template-columns: 1fr; gap: 24px; } }
   .case-body .aside { position: sticky; top: 88px; align-self: start; }
+  @media (max-width: 900px) {
+    .case-body .aside { position: static; top: auto; }
+  }
   .case-body .aside h4 {
     font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
     font-weight: 600; color: var(--muted); margin: 0 0 12px;
@@ -3238,7 +3288,7 @@
       <span data-tweak="brandFirst">Mallory</span> <i data-tweak="brandLast">Becker</i>
     </a>
     <ul>
-      <li><a class="link active" data-section="work" href="#work">Work</a></li>
+      <li><a class="link" data-section="work" href="#work">Work</a></li>
       <li><a class="link" data-section="about" href="#about">About</a></li>
       <li><a class="link" data-section="beliefs" href="#beliefs">Beliefs</a></li>
       <li><a class="link" data-section="praise" href="#praise">Praise</a></li>
@@ -3257,7 +3307,7 @@
 <div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
 <nav class="nav-drawer" id="navDrawer" aria-label="Mobile menu" aria-hidden="true">
   <ul>
-    <li><a class="link active" data-section="work" href="#work">Work</a></li>
+    <li><a class="link" data-section="work" href="#work">Work</a></li>
     <li><a class="link" data-section="about" href="#about">About</a></li>
     <li><a class="link" data-section="beliefs" href="#beliefs">Beliefs</a></li>
     <li><a class="link" data-section="praise" href="#praise">Praise</a></li>
@@ -3412,8 +3462,6 @@ An end user orders something online, and that's where I come in. Warehouses and 
           <li><span>Claude</span><b>daily</b></li>
           <li><span>Jira</span><b>weekly</b></li>
           <li><span>Datadog</span><b>weekly</b></li>
-          <li><span>
-</span><b>weekly</b></li>
         </ul>
 
         <h4 style="margin-top: 8px;">SOFT SKILLS</h4>
@@ -3575,6 +3623,9 @@ I remember the first presentation at R&amp;D whiteboard -- I was getting slack m
     <!-- injected -->
   </div>
 </div>
+<button class="overlay-fab-close" id="ov-fab-close" type="button" aria-label="Close project" data-target="project">
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2l-10 10"/></svg>
+</button>
 
 <!-- =================================== OVERLAY (belief detail) =================================== -->
 <div class="overlay" id="belief-overlay" aria-hidden="true">
@@ -3589,6 +3640,9 @@ I remember the first presentation at R&amp;D whiteboard -- I was getting slack m
     <!-- injected -->
   </div>
 </div>
+<button class="overlay-fab-close" id="bov-fab-close" type="button" aria-label="Close belief" data-target="belief">
+  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l10 10M12 2l-10 10"/></svg>
+</button>
 
 <!-- =================================== LIGHTBOX (bento gallery) =================================== -->
 <div class="bento-lightbox" id="bento-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image preview">
@@ -4373,6 +4427,7 @@ function openProject(i) {
   overlay.setAttribute('aria-hidden', 'false');
   overlay.scrollTop = 0;
   document.body.style.overflow = 'hidden';
+  document.body.classList.add('project-open');
 
   // boot the embedded slideshow if present
   const ds = detailEl.querySelector('.detail-slideshow');
@@ -4395,6 +4450,7 @@ function closeProject() {
   overlay.classList.remove('open');
   overlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  document.body.classList.remove('project-open');
   if (detailSlideshowStop) { try { detailSlideshowStop(); } catch (e) {} detailSlideshowStop = null; }
 }
 
@@ -4446,6 +4502,28 @@ document.addEventListener('keydown', (e) => {
   }
 });
 document.getElementById('ov-close').addEventListener('click', closeProject);
+document.getElementById('ov-fab-close').addEventListener('click', closeProject);
+
+/* ------------------ Any nav link click while overlay is open: close it first, then scroll ------------------ */
+document.querySelectorAll('.nav a.link[data-section], .nav-drawer a.link[data-section]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const target = link.getAttribute('href');
+    if (!target || !target.startsWith('#')) return;
+    const overlay   = document.getElementById('overlay');
+    const beliefOv  = document.getElementById('belief-overlay');
+    const openProj  = overlay && overlay.classList.contains('open');
+    const openBlf   = beliefOv && beliefOv.classList.contains('open');
+    if (!openProj && !openBlf) return; // normal anchor behavior
+    e.preventDefault();
+    if (openProj) closeProject();
+    if (openBlf)  closeBelief();
+    // wait for the overlay slide-out, then smooth-scroll to the section
+    setTimeout(() => {
+      const el = document.querySelector(target);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 480);
+  });
+});
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !document.getElementById('bento-lightbox').classList.contains('open')) closeProject();
   if (e.key === 'ArrowRight' && overlay.classList.contains('open')) {
@@ -4496,6 +4574,7 @@ function openBelief(i) {
   beliefOverlay.setAttribute('aria-hidden', 'false');
   beliefOverlay.scrollTop = 0;
   document.body.style.overflow = 'hidden';
+  document.body.classList.add('belief-open');
 
   const nextBtn = document.getElementById('bd-next-btn');
   if (nextBtn) nextBtn.addEventListener('click', () => openBelief(nextIdx));
@@ -4504,6 +4583,7 @@ function openBelief(i) {
 function closeBelief() {
   beliefOverlay.classList.remove('open');
   beliefOverlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('belief-open');
   if (!overlay.classList.contains('open')) document.body.style.overflow = '';
 }
 
@@ -4520,6 +4600,7 @@ beliefCards.forEach((card, i) => {
 });
 
 document.getElementById('bov-close').addEventListener('click', closeBelief);
+document.getElementById('bov-fab-close').addEventListener('click', closeBelief);
 document.addEventListener('keydown', (e) => {
   if (!beliefOverlay.classList.contains('open')) return;
   if (e.key === 'Escape') closeBelief();
