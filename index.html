@@ -202,7 +202,7 @@
     border-radius: 20px;
     box-shadow: 10px 14px 0 var(--ink), 0 30px 60px -20px rgba(0,0,0,0.25);
     padding: 16px;
-    z-index: 55;
+    z-index: 200;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-12px) scale(0.96);
@@ -269,7 +269,7 @@
     position: fixed; inset: 0;
     background: rgba(17,17,17,0.32);
     backdrop-filter: blur(2px);
-    z-index: 54;
+    z-index: 199;
     opacity: 0;
     visibility: hidden;
     transition: opacity .25s ease, visibility .25s;
@@ -1671,6 +1671,85 @@
   @keyframes ds-prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   .detail-slideshow.paused .ds-progress span.active::after { animation-play-state: paused; }
 
+  /* ---------- detail-slideshow: phone layout ---------- */
+  /* On phones the 16:9 / 4:3 theater is too short to show the image AND
+     read the caption. Restack: large square image area up top, caption
+     text in its own panel below, controls pinned to the bottom. */
+  @media (max-width: 720px) {
+    .detail-slideshow {
+      aspect-ratio: auto;
+      height: auto;
+      min-height: 0;
+      border-radius: 14px;
+      margin: 8px 0 40px;
+    }
+    /* limit the background grain/vignette to the image area only */
+    .detail-slideshow::before {
+      inset: 0 0 auto 0;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+    /* image frame becomes a sized, in-flow box */
+    .detail-slideshow .ds-frame {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      padding: 56px 16px 16px;
+    }
+    .detail-slideshow .ds-slide {
+      inset: 56px 16px 16px;
+    }
+    .detail-slideshow .ds-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+    }
+    /* caption rail becomes a flow section below the image */
+    .detail-slideshow .ds-caprail {
+      position: relative;
+      inset: auto;
+      background: linear-gradient(180deg, rgba(14,13,11,0) 0%, rgba(14,13,11,0.4) 12%, #0e0d0b 30%);
+      padding: 22px 20px 96px;
+      pointer-events: auto;
+      min-height: 240px;
+    }
+    /* keep captions absolutely stacked so the crossfade still works
+       (one .active visible, others opacity:0 overlapping) — without this
+       all 8 caption blocks pile up in flow and create a huge empty gap */
+    .detail-slideshow .ds-cap {
+      position: absolute;
+      left: 20px; right: 20px;
+      top: 22px; bottom: auto;
+      max-width: 100%;
+      padding: 0;
+      gap: 12px;
+      pointer-events: auto;
+    }
+    .detail-slideshow .ds-cap h3 {
+      font-size: 22px;
+      line-height: 1.18;
+      max-width: 100%;
+    }
+    /* hide the side nav arrows on phones; the dock has prev/next */
+    .detail-slideshow .ds-nav { display: none; }
+    .detail-slideshow .ds-watermark { display: none; }
+    /* progress sits just above the dock */
+    .detail-slideshow .ds-progress {
+      left: 18px; right: 18px;
+      bottom: 70px;
+    }
+    .detail-slideshow .ds-dock {
+      bottom: 18px;
+    }
+    /* topbar stays absolute over the image area */
+    .detail-slideshow .ds-topbar {
+      padding: 12px 16px;
+      background: linear-gradient(180deg, rgba(14,13,11,0.7) 0%, rgba(14,13,11,0) 100%);
+    }
+  }
+
   /* user feedback block — sits inside detail-meta, full width */
   .feedback-block {
     grid-column: 1 / -1;
@@ -1813,6 +1892,81 @@
   @media (max-width: 720px) {
     .screen-grid { grid-template-columns: repeat(2,1fr); }
     .screen-grid .frame.tall, .screen-grid .frame.wide, .screen-grid .frame.sq { grid-column: span 2; aspect-ratio: 1 / 1; grid-row: auto; }
+  }
+
+  /* ---------- case-hero work-in-progress panel ---------- */
+  .case-hero.wip {
+    aspect-ratio: auto;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    overflow: hidden;
+    display: block;
+    border-radius: 0;
+  }
+  .case-hero.wip .wip-stripes {
+    height: 18px;
+    background: repeating-linear-gradient(135deg, var(--pop) 0 22px, #111 22px 44px);
+    border-bottom: 1px solid var(--ink);
+  }
+  .case-hero.wip .wip-stripes.bottom { border-top: 1px solid var(--ink); border-bottom: 0; }
+  .case-hero.wip .wip-body {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 36px;
+    align-items: center;
+    padding: 40px 44px;
+  }
+  @media (max-width: 720px) {
+    .case-hero.wip .wip-body { grid-template-columns: 1fr; gap: 22px; padding: 28px 22px; }
+  }
+  .case-hero.wip .wip-mark {
+    width: 160px; height: 160px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--pop); color: var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(-6deg);
+  }
+  .case-hero.wip .wip-mark svg { width: 56px; height: 56px; }
+  .case-hero.wip .wip-mark .wip-stamp {
+    font-family: var(--sans); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; margin-top: 6px;
+  }
+  .case-hero.wip .wip-eyebrow {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--muted); font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .case-hero.wip .wip-eyebrow::before {
+    content: ""; width: 22px; height: 1px; background: var(--ink);
+  }
+  .case-hero.wip h3 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(26px, 3.2vw, 36px);
+    line-height: 1.1; letter-spacing: -0.01em;
+    color: var(--ink); margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .case-hero.wip h3 .hl { background: var(--pop); padding: 0 4px; }
+  .case-hero.wip p {
+    font-size: 16px; line-height: 1.55; color: var(--ink-soft); margin: 0;
+    max-width: 56ch;
+  }
+  .case-hero.wip .wip-list {
+    list-style: none; padding: 0; margin: 14px 0 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px 22px;
+  }
+  .case-hero.wip .wip-list li {
+    font-size: 13.5px; color: var(--ink); position: relative; padding-left: 16px;
+  }
+  .case-hero.wip .wip-list li::before {
+    content: "→"; position: absolute; left: 0; top: 0; color: var(--pop-ink, var(--ink));
+  }
+  @media (max-width: 720px) {
+    .case-hero.wip .wip-list { grid-template-columns: 1fr; }
   }
 
   /* ---------- under-construction placeholder ---------- */
@@ -2232,12 +2386,14 @@
     border: 0;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-auto-rows: 200px;
+    /* min 200px so image tiles keep their height; max auto so text tiles
+       (size-full quote card) can grow to fit their content */
+    grid-auto-rows: minmax(200px, auto);
     grid-auto-flow: dense;
     gap: 14px;
   }
   @media (max-width: 900px) {
-    .case-hero.bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+    .case-hero.bento { grid-template-columns: repeat(2, 1fr); grid-auto-rows: minmax(180px, auto); }
   }
   .bento-tile {
     position: relative;
@@ -2350,51 +2506,10 @@
     position: relative;
     overflow: hidden;
   }
-  /* brand-flavored marks scattered across the quote card */
-  .bento-tile.text .decor {
-    position: absolute;
-    color: var(--pop);
-    pointer-events: none;
-    display: block;
-  }
-  /* signature: chunky yellow highlighter swipe, the brand's loudest move */
-  .bento-tile.text .decor.swipe {
-    top: 22px; right: 32px;
-    width: 240px; height: 26px;
-    transform: rotate(-3deg);
-    opacity: 0.95;
-  }
-  /* curly spiral — same as the gate / collage doodles */
-  .bento-tile.text .decor.spiral {
-    bottom: 38px; right: 48px;
-    width: 72px; height: 72px;
-    transform: rotate(-12deg);
-    opacity: 0.95;
-  }
-  /* wavy scribble — echoes the gate squiggle and section dividers */
-  .bento-tile.text .decor.scribble {
-    bottom: 30px; right: 28%;
-    width: 180px; height: 36px;
-    transform: rotate(-2deg);
-    opacity: 0.85;
-  }
-  /* small asterisk star — echoes the section divider ornament */
-  .bento-tile.text .decor.aster {
-    top: 64px; right: 280px;
-    width: 24px; height: 24px;
-    transform: rotate(10deg);
-    opacity: 0.95;
-  }
-  @media (max-width: 900px) {
-    .bento-tile.text .decor.swipe    { width: 180px; right: 24px; }
-    .bento-tile.text .decor.aster    { right: 220px; }
-    .bento-tile.text .decor.scribble { right: 22px; bottom: 70px; width: 130px; }
-  }
-  @media (max-width: 720px) {
-    .bento-tile.text .decor.spiral { display: none; }
-    .bento-tile.text .decor.aster  { display: none; }
-  }
   .bento-tile.text:hover { transform: none; box-shadow: none; border-color: rgba(17,17,17,0.14); }
+  @media (max-width: 720px) {
+    .bento-tile.text { padding: 22px 22px 24px; gap: 12px; }
+  }
   .bento-tile.text .b-tag {
     font: 600 10px var(--sans);
     letter-spacing: 0.2em; text-transform: uppercase;
@@ -2440,6 +2555,41 @@
     margin-top: 4px;
   }
   .bento-tile.size-full { grid-column: 1 / -1; grid-row: span 1; }
+
+  /* video bento tile — iframe fills, caption sits below in a dark strip */
+  .bento-tile.video {
+    display: flex;
+    flex-direction: column;
+    background: #0e0d0b;
+  }
+  .bento-tile.video .v-frame {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+  .bento-tile.video .v-frame iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+    display: block;
+  }
+  .bento-tile.video .v-cap {
+    flex: 0 0 auto;
+    padding: 12px 16px 14px;
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 1px solid rgba(246,241,227,0.08);
+  }
+  .bento-tile.video .v-cap .t { font-weight: 600; font-size: 14px; letter-spacing: .01em; }
+  .bento-tile.video .v-cap .b { font-size: 12.5px; line-height: 1.45; color: rgba(246,241,227,0.72); margin-top: 2px; }
+  /* video tiles don't get the image hover overlay */
+  .bento-tile.video:hover { transform: none; box-shadow: none; }
+  .bento-tile.video .hint,
+  .bento-tile.video .overlay,
+  .bento-tile.video .cap { display: none; }
 
   /* ---------- bento lightbox ---------- */
   .bento-lightbox {
@@ -3791,7 +3941,7 @@ const PROJECTS = [
           lead: "Usability score soared. Support tickets about ‘where is X?’ dropped by a lot.",
           body: "But the moments I remember were in Fullstory, watching user sessions. I could watch people understand the platform. Yeah, that felt good.",
           aside: { label: "Ships", items: ["Multi phase shipped", "Company-wide recognition", "Kudos from the VP"] },
-          media: { kind: "stat", eyebrow: " 2024 DATA", big: "$75 to $150M", unit: "\nin revenue", label: "Doubled the revenue in 1 year", mini: [["+NPS","NPS score went through the roof"],["Fewer support tickets","Support tickets"],["500+ Brands","Users"],["100%","Happy business"]] }
+          media: { kind: "stat", eyebrow: " 2024 DATA", big: "$75 to $150M", unit: "\nin revenue", label: "Doubled the revenue in 1 year", mini: [["+65 NPS","NPS score went through the roof"],["Fewer support tickets","Support tickets"],["500+ Brands","Users"],["100%","Happy business"]] }
         }
       }
     }
@@ -3885,6 +4035,114 @@ const PROJECTS = [
   },
   {
     num: "03",
+    title: "Feature Deep Dive: Automations",
+    subtitle: "",
+    year: "2025-2026",
+    role: "Senior Product Designer",
+    company: "Stord",
+    user: "Logistics Managers, Merchants, Business Admins",
+    tags: ["Logistics", "E-commerce", "DTC"],
+    visual: "ph-5",
+    hero: "assets/projects/04-wildwood.svg",
+    logo: "assets/logos/stord.png",
+    slideMs: 3000,
+    slides: [
+      { src: "assets/projects/automations-story/01-original-landing.png",   phase: "Before",   label: "Original automations landing",  trans: "push-left" },
+      { src: "assets/projects/automations-story/02-original-rules-list.png",phase: "Before",   label: "Original rules list",           trans: "slide-up" },
+      { src: "assets/projects/automations-story/03-original-details.png",   phase: "Before",   label: "Original rule details",         trans: "push-left" },
+      { src: "assets/projects/automations-story/04-claude-workthrough.png", phase: "Ideation", label: "Workthrough with Claude",       trans: "reveal" },
+      { src: "assets/projects/automations-story/05-redesign-file.png",      phase: "Ideation", label: "Redesign file \u00b7 prototype",   trans: "zoom-rotate" },
+      { src: "assets/projects/automations-story/06-new-list.png",           phase: "After",    label: "New automations list",          trans: "push-left" },
+      { src: "assets/projects/automations-story/07-new-details.png",        phase: "After",    label: "New rule details",              trans: "slide-up" },
+      { src: "assets/projects/automations-story/08-new-activity-log.png",   phase: "After",    label: "New activity log",              trans: "scale-pop" },
+    ],
+    shortLine: "Site, subscription, packaging, and the in-store iPad ordering flow.",
+    detail: {
+      tagline: "Building a working, AI-powered rules engine for a B2B, B2C, and DTC logistics platform. Helping merchants get their goods shipped without manual intervention.",
+      meta: [
+        ["Role", "Senior Product Designer"],
+        ["Duration", "3 Months- Currently Ongoing"],
+        ["Team", "1 Staff Engineer · 1 PM · 2 Designers"],
+        ["Scope", "Landing page, details page, editing page, activity logs"],
+      ],
+      problem: "Merchants need fulfillment rules to run their business without manual input for every order placed.\nStord’s automations platform was a working rules engine — but it was really limited. Each rule could only output 1 action based on only a few specific conditions. Rules were run in a specific order that Stord determined. Each rule was set up manually. You couldn't edit rules- you had to make new ones and delete old ones. Good grief- it was time for an upgrade.",
+      caseSections: {
+        research: {
+          eyebrow: "Audit the engine",
+          heading: "Three screens, <i>one painfully manual</i> rules engine.",
+          rhs: "Discovery · 2025",
+          lead: "Before we touched a pixel, I sat with product managers, engineers, and the actual rules feature live in production today to figure out why users hate this feature so much.",
+          body: "The original automations module did the job — barely. One condition in, one action out. No editing. No reordering. No way to see if a rule had actually fired. I mapped every screen, listed every limitation, and put the gaps next to merchant complaints. The pattern was obvious: the engine was working, but the workflow around it wasn't.",
+          aside: { label: "Methods", items: ["Audit every existing screen", "Map conditions ↔ actions ↔ outcomes", "Pair with engineering to see how far we can push", "Workshop with Claude to model the new engine"] },
+          media: { kind: "bento", items: [
+            { size: "feature", src: "assets/projects/automations-story/01-original-landing.png",    title: "Before · automations landing",
+              body: "The entry point told you nothing. No status, no recent activity, no sense of what was running on your account right now." },
+            { size: "lg",      src: "assets/projects/automations-story/09-concept-ai-rule-builder.png", title: "Concept · AI rule builder + visual canvas",
+              body: "Generative concept exploring a plain-English rule builder paired with a visual workflow canvas — the two halves of the engine, side by side." },
+            { size: "tall",    src: "assets/projects/automations-story/02-original-rules-list.png", title: "Before · rules list",
+              body: "A flat list with no ordering, no grouping, and no way to tell which rules were actually firing. Power users had spreadsheets to keep up." },
+            { size: "tall",    src: "assets/projects/automations-story/03-original-details.png",    title: "Before · rule details",
+              body: "One condition, one action, hard-coded order. Read-only — if you wanted to change something, you deleted and rebuilt it." },
+            { size: "lg",      src: "assets/projects/automations-story/10-research-zapier-canvas.png",    title: "Competitive scan · Zapier Canvas",
+              body: "How Zapier visualizes a multi-step workflow on an infinite canvas. Strong on the diagram, light on plain-English readability." },
+            { size: "feature", src: "assets/projects/automations-story/12-concept-workflow-list.png",     title: "Concept · workflow management list",
+              body: "Early concept for the new list: status pills, last-run timestamps, and category filters across the top." },
+            { size: "feature", src: "assets/projects/automations-story/13-concept-ai-copilot.png",        title: "Concept · AI copilot editor",
+              body: "Early concept for the editor: natural-language copilot on the left, the workflow graph it produced on the right." },
+            { size: "tall",    src: "assets/projects/automations-story/11-research-json-rule-editor.png", title: "Competitive scan · JSON Rule Editor",
+              body: "An open-source rules engine UI — full power, low approachability. A useful counterweight to the visual-canvas direction." },
+            { kind: "text", size: "full", tag: "The brief",
+              setup: "From the kickoff doc, the thing we kept underlining,",
+              quote: "Merchants should be able to write the rule once, watch it run, and edit it when their business changes — without filing a ticket.",
+              cite: "— Automations kickoff, 2026" },
+          ] }
+        },
+        prototyping: {
+          eyebrow: "Rebuild the rules",
+          heading: "<span class=\"hl\">A rule builder you can manipulate the way your business needs.</span>",
+          rhs: "Build · ongoing",
+          lead: "The new engine had to support multiple conditions, multiple actions, custom ordering, and live editing — without making the simple cases feel heavy or breaking any merchant's fulfillment processes.",
+          body: "I worked side-by-side with Claude to model the new engine before opening Figma — conditions, actions, priority, edit states, activity. From there, the redesign came together fast: a landing page that shows what's running, a details page that explains what a rule does in plain English, and an activity log that proves it.",
+          aside: { label: "Artifacts", items: ["Engine model · whiteboarded with Claude", "Prototype file · landing → details → edit → activity", "Pattern review with the staff engineer", "Phased rollout plan"] },
+          media: { kind: "bento", items: [
+            { kind: "video", size: "lg",
+              embedSrc: "https://drive.google.com/file/d/1fTaaIT5-jsPCzxgBAgjpqGRjQGmSLNy8/preview",
+              title: "Prototype walkthrough · landing → details",
+              body: "Click through the new automations flow — landing, details, edit, activity. Tap the player's fullscreen button to watch landscape on mobile." },
+            { size: "feature", src: "assets/projects/automations-story/04-claude-workthrough.png",  title: "Workthrough with Claude",
+              body: "Conditions, actions, priority order, edit states — modeled in conversation first so the design didn't have to invent the engine and the UI at the same time." },
+            { size: "tall",    src: "assets/projects/automations-story/06-new-list.png",            title: "New automations list",
+              body: "Grouped, sortable, with status at a glance. The list finally tells you what's running on your account today." },
+            { size: "lg",      src: "assets/projects/automations-story/05-redesign-file.png",       title: "Redesign file · prototype",
+              body: "Every screen in one Figma file, wired together so the team could click through the new flow before a single line of code shipped." },
+            { size: "feature", src: "assets/projects/automations-story/07-new-details.png",         title: "New rule details",
+              body: "Multiple conditions, multiple actions, plain-English summary up top. Editable in place — no more delete-and-rebuild." },
+            { kind: "video", size: "feature",
+              embedSrc: "https://drive.google.com/file/d/1B_GRdNLqfj7LhVtW8rgpJnDfbsmMLK6l/preview",
+              title: "Prototype walkthrough · edit & activity",
+              body: "Editing an existing rule in place, then jumping to the activity log to confirm it fired." },
+          ] }
+        },
+        outcomes: {
+          eyebrow: "Rules that earn their keep",
+          heading: "What's <i>coming next.</i>",
+          rhs: "In flight · 2026",
+          lead: "The new automations module is still being built. The activity log, AI-assisted authoring, and editable rules are all in active design and development — not yet shipped to merchants.",
+          body: "I'll add live screens, real merchant reactions, and the early-adoption signal here as soon as the feature lands. For now, this section is a placeholder for the outcomes I'm tracking.",
+          aside: { label: "Tracking", items: ["Time-to-first-rule for new merchants", "Support tickets tagged \"rules\"", "Edits vs. delete-and-rebuilds", "Rules created per active account"] },
+          media: { kind: "wip",
+            eyebrow: "Status",
+            stamp: "In flight",
+            title: "This feature is <span class=\"hl\">currently in the works.</span>",
+            body: "The redesigned automations module hasn't shipped to production yet. I'll post live screens, real activity-log captures, and outcomes here as soon as the team starts rolling it out across 2026.",
+            items: ["Landing, details, edit, and activity log", "AI-assisted rule authoring", "Editable rules · no more delete-and-rebuild", "Phased rollout across 2026"]
+          }
+        }
+      }
+    }
+  },
+  {
+    num: "04",
     title: "Teaching Product & Engineering Teams",
     subtitle: "Creating tutorial-level courses for user research practices and platforms (Fullstory, specifically), and evangelizing user design heuristics.",
     year: "2023-2025",
@@ -3932,43 +4190,6 @@ const PROJECTS = [
         ["89%", "team adoption Y1"],
       ],
       screens: ["ph-3 wide ph-grid-dots", "ph-2 tall", "ph-1 sq", "ph-stripe sq", "ph-4 sq", "ph-3 sq ph-grid-dots"],
-      caseSections: {}
-    }
-  },
-  {
-    num: "04",
-    title: "Feature Deep Dive: Automations",
-    subtitle: "",
-    year: "2025-2026",
-    role: "Senior Product Designer",
-    company: "Stord",
-    user: "Logistics Managers, Merchants, Business Admins",
-    tags: ["Logistics", "E-commerce", "DTC"],
-    visual: "ph-5",
-    hero: "assets/projects/04-wildwood.svg",
-    logo: "assets/logos/stord.png",
-    slideMs: 3000,
-    slides: [
-      { src: "assets/projects/automations-story/01-original-landing.png",   phase: "Before",   label: "Original automations landing",  trans: "push-left" },
-      { src: "assets/projects/automations-story/02-original-rules-list.png",phase: "Before",   label: "Original rules list",           trans: "slide-up" },
-      { src: "assets/projects/automations-story/03-original-details.png",   phase: "Before",   label: "Original rule details",         trans: "push-left" },
-      { src: "assets/projects/automations-story/04-claude-workthrough.png", phase: "Ideation", label: "Workthrough with Claude",       trans: "reveal" },
-      { src: "assets/projects/automations-story/05-redesign-file.png",      phase: "Ideation", label: "Redesign file \u00b7 prototype",   trans: "zoom-rotate" },
-      { src: "assets/projects/automations-story/06-new-list.png",           phase: "After",    label: "New automations list",          trans: "push-left" },
-      { src: "assets/projects/automations-story/07-new-details.png",        phase: "After",    label: "New rule details",              trans: "slide-up" },
-      { src: "assets/projects/automations-story/08-new-activity-log.png",   phase: "After",    label: "New activity log",              trans: "scale-pop" },
-    ],
-    shortLine: "Site, subscription, packaging, and the in-store iPad ordering flow.",
-    detail: {
-      underConstruction: true,
-      tagline: "Building a working, AI-powered rules engine for B2B, B2C, and DTC logistics platform. Helping merchants get their goods shipped without manual intervention.",
-      meta: [
-        ["Role", "Senior Product Designer"],
-        ["Duration", "3 Months- Currently Ongoing"],
-        ["Team", "1 Staff Engineer · 1 PM · 2 Designers"],
-        ["Scope", "Landing page, details page, editing page, activity logs"],
-      ],
-      problem: "Merchants need fulfillment rules to run their business without manual input for every order placed.\nStord’s automations platform was a working rules engine — but it was really limited. Each rule could only product 1 out action based on only a few specific conditions. Rules were run in a specific order that Stord determined. Each rule was set up manually. You couldn't edit rules- you had to make new ones and delete old ones. Good grief- it was time for an upgrade.",
       caseSections: {}
     }
   },
@@ -4626,28 +4847,22 @@ function renderCaseHero(media, p) {
         const tag   = it.tag   ? `<span class="b-tag">${it.tag}</span>` : '';
         const setup = it.setup ? `<div class="setup">${it.setup}</div>` : '';
         const cite  = it.cite  ? `<div class="cite">${it.cite}</div>` : '';
-        const decor = `
-          <svg class="decor swipe" viewBox="0 0 240 26" fill="currentColor" aria-hidden="true">
-            <path d="M 6 20 C 60 6, 130 4, 234 8 L 232 22 C 130 26, 60 24, 4 24 Z"/>
-          </svg>
-          <svg class="decor spiral" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-            <path d="M60 60 m-32 0 a32 32 0 1 1 64 0 a26 26 0 1 1 -52 0 a20 20 0 1 1 40 0 a14 14 0 1 1 -28 0 a8 8 0 1 1 16 0"/>
-          </svg>
-          <svg class="decor scribble" viewBox="0 0 200 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true">
-            <path d="M4 20 Q 22 4, 42 20 T 82 20 T 122 20 T 162 20 T 196 20"/>
-          </svg>
-          <svg class="decor aster" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true">
-            <line x1="20" y1="4" x2="20" y2="36"/>
-            <line x1="4" y1="20" x2="36" y2="20"/>
-            <line x1="8" y1="8" x2="32" y2="32"/>
-            <line x1="32" y1="8" x2="8" y2="32"/>
-          </svg>`;
         return `<div class="bento-tile text ${size}">
-          ${decor}
           ${tag}
           ${setup}
           <p class="quote">${it.quote}</p>
           ${cite}
+        </div>`;
+      }
+      if (it.kind === 'video') {
+        return `<div class="bento-tile video ${size}">
+          <div class="v-frame">
+            <iframe src="${enc(it.embedSrc)}" title="${enc(it.title)}" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="v-cap">
+            <div class="t">${it.title || ''}</div>
+            ${it.body ? `<div class="b">${it.body}</div>` : ''}
+          </div>
         </div>`;
       }
       return `<div class="bento-tile ${size}" data-bento-src="${enc(it.src)}" data-bento-title="${enc(it.title)}" data-bento-body="${enc(it.body)}" role="button" tabindex="0" aria-label="${enc(it.title)} — click to expand">
@@ -4699,6 +4914,31 @@ function renderCaseHero(media, p) {
           <span class="scrub" style="--prog:${prog}"></span>
           <span>${media.duration || '00:00'}</span>
         </div>
+      </div>`;
+  }
+
+  if (media.kind === 'wip') {
+    return `
+      <div class="case-hero wip" role="note" aria-label="Feature in progress">
+        ${tag}
+        <div class="wip-stripes"></div>
+        <div class="wip-body">
+          <div class="wip-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M32 8 L56 52 L8 52 Z"/>
+              <line x1="32" y1="24" x2="32" y2="38"/>
+              <circle cx="32" cy="45" r="1.4" fill="currentColor" stroke="none"/>
+            </svg>
+            <span class="wip-stamp">${media.stamp || 'In flight'}</span>
+          </div>
+          <div class="wip-text">
+            <div class="wip-eyebrow">${media.eyebrow || 'Status'}</div>
+            <h3>${media.title || 'Currently in the works.'}</h3>
+            <p>${media.body || ''}</p>
+            ${(media.items && media.items.length) ? `<ul class="wip-list">${media.items.map(i => `<li>${i}</li>`).join('')}</ul>` : ''}
+          </div>
+        </div>
+        <div class="wip-stripes bottom"></div>
       </div>`;
   }
 
