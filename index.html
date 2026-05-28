@@ -1220,6 +1220,137 @@
   }
   .overlay-bar .close:hover { background: var(--ink); color: var(--paper); }
 
+  /* ---------- case-study jump nav (sticky submenu) ---------- */
+  .case-jump {
+    position: sticky;
+    top: 64px;            /* sit just below the overlay-bar (64px tall) */
+    z-index: 3;
+    margin: -56px -40px 36px;  /* pull up into .detail's top padding so it sits flush with the overlay-bar */
+    padding: 10px 40px;
+    background: rgba(246,241,227,0.92);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-top: 1px solid rgba(17,17,17,0.08);
+    border-bottom: 1px solid rgba(17,17,17,0.12);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .case-jump::-webkit-scrollbar { display: none; }
+  .case-jump::before {
+    content: "Jump to";
+    flex: 0 0 auto;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--muted); font-weight: 600;
+    padding-right: 10px;
+    margin-right: 4px;
+    border-right: 1px solid rgba(17,17,17,0.18);
+  }
+  .case-jump a {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: baseline; gap: 8px;
+    text-decoration: none;
+    font: 500 13px/1 var(--sans);
+    color: var(--ink-soft);
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+    white-space: nowrap;
+  }
+  .case-jump a .n {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .case-jump a:hover {
+    background: rgba(17,17,17,0.06);
+    color: var(--ink);
+  }
+  .case-jump a:hover .n { color: var(--ink-soft); }
+  .case-jump a:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .case-jump a.active {
+    background: var(--pop);
+    color: var(--ink);
+    border-color: var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .case-jump a.active .n { color: var(--ink); }
+
+  @media (max-width: 900px) {
+    .case-jump { margin: -40px -22px 28px; padding: 10px 22px; }
+  }
+  @media (max-width: 720px) {
+    /* on phone, the submenu pins to the BOTTOM of the screen as a thumb-reach nav.
+       40px tall, edge-to-edge, five equal-width tap segments. */
+    .case-jump {
+      position: fixed;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      margin: 0;
+      padding: 0 0 env(safe-area-inset-bottom, 0px);
+      gap: 0;
+      justify-content: stretch;
+      background: rgba(246,241,227,0.97);
+      border-top: 1px solid var(--ink);
+      border-bottom: 0;
+      box-shadow: 0 -8px 22px -10px rgba(0,0,0,0.18);
+      z-index: 120;          /* sit above the floating close FAB */
+      overflow: hidden;      /* no horizontal scroll on phone — 5 segments always fit */
+    }
+    /* hide the "Jump to" label and the 01/02/03 numbers — mobile is thumb-tap only */
+    .case-jump::before { display: none; }
+    .case-jump a {
+      flex: 1 1 0;           /* equal-width segments across the full screen */
+      min-width: 0;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      margin: 0;
+      border-radius: 0;
+      border: 0;
+      border-right: 1px solid rgba(17,17,17,0.12);
+      background: transparent;
+      box-shadow: none;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--ink-soft);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .case-jump a:last-child { border-right: 0; }
+    .case-jump a .n { display: none; }
+    .case-jump a:hover { background: rgba(17,17,17,0.04); color: var(--ink); }
+    .case-jump a.active {
+      background: var(--pop);
+      color: var(--ink);
+      border-color: var(--ink);
+      box-shadow: none;
+    }
+    /* keep last bit of content visible above the fixed bottom nav */
+    .detail { padding-bottom: 96px; }
+    /* push the floating close button above the bottom nav */
+    body.project-open #ov-fab-close { bottom: 56px; }
+  }
+
   /* floating close button — only on phone-size screens */
   .overlay-fab-close {
     display: none;
@@ -2570,6 +2701,22 @@
     background: #000;
     overflow: hidden;
   }
+  /* when a video tile spans the full width of the bento, lock its frame to the
+     native 16:9 aspect ratio so the player isn't letterboxed in a too-tall slot */
+  .bento-tile.video.size-full {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  .bento-tile.video.size-full .v-frame {
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+  .bento-tile.video.size-full .v-cap {
+    padding: 16px 22px 18px;
+  }
+  .bento-tile.video.size-full .v-cap .t { font-size: 16px; }
+  .bento-tile.video.size-full .v-cap .b { font-size: 13.5px; max-width: 70ch; }
   .bento-tile.video .v-frame iframe {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
@@ -4019,7 +4166,7 @@ const PROJECTS = [
           lead: "The core move: make the OMS answer back. Instead of hunting across dashboards, a merchant can ask \u2014 in plain English \u2014 \u201cwhy is the West Coast SLA slipping?\u201d or \u201cwhich SKUs are about to stock out?\u201d \u2014 and get a grounded answer with the underlying orders, shipments, and inventory one click away.",
           body: "We prototyped the assistant as a thin layer over the data the OMS already had \u2014 orders, exceptions, carrier scans, inventory positions \u2014 so every answer is auditable, not hallucinated. Users can follow up (\u201cfilter to last 7 days,\u201d \u201cshow me the affected POs\u201d) and act on findings without leaving the conversation: pause a listing, reroute a shipment, kick off a replenishment. The goal wasn\u2019t a chatbot bolted onto an OMS; it was making the OMS itself feel like something you could talk to.",
           aside: { label: "Artifacts", items: ["Multiple prototype versions", "Smoothing-engine spec", "Customer adoption is key", "Help the user talk to the system"] },
-          media: { kind: "video", embedSrc: "https://drive.google.com/file/d/1fTaaIT5-jsPCzxgBAgjpqGRjQGmSLNy8/preview", tag: "Prototype walkthrough", title: "StordAI · walkthrough", duration: "01:47", progress: "58%" }
+          media: { kind: "video", embedSrc: "https://www.youtube.com/embed/-p_NvLS9TAA?playsinline=1&rel=0", tag: "Prototype walkthrough", title: "StordAI · walkthrough", duration: "01:47", progress: "58%" }
         },
         outcomes: {
           eyebrow: "One usable product",
@@ -4105,8 +4252,8 @@ const PROJECTS = [
           body: "I worked side-by-side with Claude to model the new engine before opening Figma — conditions, actions, priority, edit states, activity. From there, the redesign came together fast: a landing page that shows what's running, a details page that explains what a rule does in plain English, and an activity log that proves it.",
           aside: { label: "Artifacts", items: ["Engine model · whiteboarded with Claude", "Prototype file · landing → details → edit → activity", "Pattern review with the staff engineer", "Phased rollout plan"] },
           media: { kind: "bento", items: [
-            { kind: "video", size: "lg",
-              embedSrc: "https://drive.google.com/file/d/1fTaaIT5-jsPCzxgBAgjpqGRjQGmSLNy8/preview",
+            { kind: "video", size: "full",
+              embedSrc: "https://www.youtube.com/embed/K45jUN-wSVI?playsinline=1&rel=0",
               title: "Prototype walkthrough · landing → details",
               body: "Click through the new automations flow — landing, details, edit, activity. Tap the player's fullscreen button to watch landscape on mobile." },
             { size: "feature", src: "assets/projects/automations-story/04-claude-workthrough.png",  title: "Workthrough with Claude",
@@ -4118,7 +4265,7 @@ const PROJECTS = [
             { size: "feature", src: "assets/projects/automations-story/07-new-details.png",         title: "New rule details",
               body: "Multiple conditions, multiple actions, plain-English summary up top. Editable in place — no more delete-and-rebuild." },
             { kind: "video", size: "feature",
-              embedSrc: "https://drive.google.com/file/d/1B_GRdNLqfj7LhVtW8rgpJnDfbsmMLK6l/preview",
+              embedSrc: "https://www.youtube.com/embed/K45jUN-wSVI?playsinline=1&rel=0",
               title: "Prototype walkthrough · edit & activity",
               body: "Editing an existing rule in place, then jumping to the activity log to confirm it fired." },
           ] }
@@ -4654,6 +4801,9 @@ function openProject(i) {
   const ds = detailEl.querySelector('.detail-slideshow');
   if (ds) detailSlideshowStop = startDetailSlideshow(ds);
 
+  // wire up the sticky case-study jump submenu
+  initCaseJump();
+
   // wire next-project click
   const next = detailEl.querySelector('.next-proj');
   if (next) next.addEventListener('click', () => {
@@ -4673,6 +4823,104 @@ function closeProject() {
   document.body.style.overflow = '';
   document.body.classList.remove('project-open');
   if (detailSlideshowStop) { try { detailSlideshowStop(); } catch (e) {} detailSlideshowStop = null; }
+  teardownCaseJump();
+}
+
+/* ------------------ case-study jump submenu ------------------ */
+let _caseJumpScrollHandler = null;
+let _caseJumpResizeHandler = null;
+let _caseJumpNavEl = null;        // the rendered <nav> element
+let _caseJumpAnchor = null;       // where it lives in the detail DOM when not on mobile
+function _caseJumpPlacement() {
+  // mobile: pinned to body so position:fixed truly pins to the viewport
+  // (the .overlay has a transform animation, which would otherwise capture the fixed positioning)
+  if (!_caseJumpNavEl || !_caseJumpAnchor) return;
+  const mobile = window.innerWidth <= 720;
+  const inBody = _caseJumpNavEl.parentNode === document.body;
+  if (mobile && !inBody) {
+    document.body.appendChild(_caseJumpNavEl);
+    _caseJumpNavEl.classList.add('case-jump--floating');
+  } else if (!mobile && inBody) {
+    _caseJumpAnchor.parentNode.insertBefore(_caseJumpNavEl, _caseJumpAnchor);
+    _caseJumpNavEl.classList.remove('case-jump--floating');
+  }
+}
+function initCaseJump() {
+  teardownCaseJump();
+  const nav = detailEl.querySelector('.case-jump');
+  if (!nav) return;
+  _caseJumpNavEl = nav;
+  // place an invisible anchor where the nav lives so we can put it back on desktop
+  _caseJumpAnchor = document.createComment('case-jump-anchor');
+  nav.parentNode.insertBefore(_caseJumpAnchor, nav);
+  _caseJumpPlacement();
+
+  const links = Array.from(nav.querySelectorAll('a[data-target]'));
+  const targets = links
+    .map(a => detailEl.querySelector('#' + a.dataset.target))
+    .filter(Boolean);
+  if (!targets.length) return;
+
+  function stickyPad() {
+    // overlay-bar is sticky 64px on desktop; on phone the submenu is fixed at the BOTTOM so no top offset is consumed
+    if (window.innerWidth <= 720) return 12;
+    return 64 + nav.offsetHeight + 8;
+  }
+  function offsetWithin(el) {
+    // distance from top of the scrolling overlay container
+    return el.getBoundingClientRect().top
+         - overlay.getBoundingClientRect().top
+         + overlay.scrollTop;
+  }
+
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const t = detailEl.querySelector('#' + a.dataset.target);
+      if (!t) return;
+      const y = Math.max(0, offsetWithin(t) - stickyPad() + 1);
+      overlay.scrollTo({ top: y, behavior: 'smooth' });
+    });
+  });
+
+  function updateActive() {
+    const pad = stickyPad() + 24;
+    const sy = overlay.scrollTop;
+    let activeIdx = 0;
+    for (let i = 0; i < targets.length; i++) {
+      if (offsetWithin(targets[i]) - pad <= sy) activeIdx = i;
+    }
+    links.forEach((a, i) => a.classList.toggle('active', i === activeIdx));
+    // keep active link visible inside the horizontal-scrolling nav on phones
+    const active = links[activeIdx];
+    if (active && nav.scrollWidth > nav.clientWidth) {
+      const r = active.getBoundingClientRect();
+      const nr = nav.getBoundingClientRect();
+      if (r.left < nr.left + 24) nav.scrollBy({ left: r.left - nr.left - 24, behavior: 'smooth' });
+      else if (r.right > nr.right - 24) nav.scrollBy({ left: r.right - nr.right + 24, behavior: 'smooth' });
+    }
+  }
+  _caseJumpScrollHandler = updateActive;
+  _caseJumpResizeHandler = () => { _caseJumpPlacement(); updateActive(); };
+  overlay.addEventListener('scroll', _caseJumpScrollHandler, { passive: true });
+  window.addEventListener('resize', _caseJumpResizeHandler);
+  // initial paint
+  updateActive();
+}
+function teardownCaseJump() {
+  if (_caseJumpScrollHandler) overlay.removeEventListener('scroll', _caseJumpScrollHandler);
+  if (_caseJumpResizeHandler) window.removeEventListener('resize', _caseJumpResizeHandler);
+  _caseJumpScrollHandler = null;
+  _caseJumpResizeHandler = null;
+  // remove any nav we floated onto <body>
+  if (_caseJumpNavEl && _caseJumpNavEl.parentNode === document.body) {
+    document.body.removeChild(_caseJumpNavEl);
+  }
+  if (_caseJumpAnchor && _caseJumpAnchor.parentNode) {
+    _caseJumpAnchor.parentNode.removeChild(_caseJumpAnchor);
+  }
+  _caseJumpNavEl = null;
+  _caseJumpAnchor = null;
 }
 
 /* ------------------ bento lightbox ------------------ */
@@ -4857,7 +5105,7 @@ function renderCaseHero(media, p) {
       if (it.kind === 'video') {
         return `<div class="bento-tile video ${size}">
           <div class="v-frame">
-            <iframe src="${enc(it.embedSrc)}" title="${enc(it.title)}" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="${enc(it.embedSrc)}" title="${enc(it.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
           </div>
           <div class="v-cap">
             <div class="t">${it.title || ''}</div>
@@ -4897,7 +5145,7 @@ function renderCaseHero(media, p) {
     if (media.embedSrc) {
       return `
         <div class="case-hero video has-embed">
-          <iframe class="video-embed" src="${media.embedSrc}" title="${media.title || 'Video'}" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe class="video-embed" src="${media.embedSrc}" title="${media.title || 'Video'}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
           ${tag}
         </div>`;
     }
@@ -4988,8 +5236,9 @@ function renderCaseSection(num, kind, sec, p, isFirst) {
       ${p.detail.stats.map(([n,l]) => `<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('')}
     </div>` : '';
 
+  const sectionId = `proj-${kind.toLowerCase()}`;
   return `
-    <section class="case-section ${isFirst ? 'first' : ''}">
+    <section class="case-section ${isFirst ? 'first' : ''}" id="${sectionId}">
       <div class="case-head">
         <div class="lhs">
           <div class="num"><b>${kind}</b> · ${sec.eyebrow}</div>
@@ -5015,8 +5264,19 @@ function renderDetail(p, i) {
   const prevIdx = (i - 1 + PROJECTS.length) % PROJECTS.length;
   const prev = PROJECTS[prevIdx];
   const cs = p.detail.caseSections || {};
+  const _problem = p.detail.problem || (p.detail.sections && p.detail.sections[0] && p.detail.sections[0][1] && p.detail.sections[0][1].trim() !== '' && p.detail.sections[0][1].trim() !== '\n' ? p.detail.sections[0][1] : '');
+  const _tabs = [['proj-overview', '00', 'Overview']];
+  if (_problem)        _tabs.push(['proj-problem',     '01', 'Problem']);
+  if (cs.research)     _tabs.push(['proj-research',    '02', 'Research']);
+  if (cs.prototyping)  _tabs.push(['proj-prototyping', '03', 'Prototyping']);
+  if (cs.outcomes)     _tabs.push(['proj-outcomes',    '04', 'Outcomes']);
+  const _caseJumpNav = _tabs.length >= 2 ? `
+    <nav class="case-jump" aria-label="Jump to section">
+      ${_tabs.map(([id,n,label]) => `<a href="#${id}" data-target="${id}"><span class="n">${n}</span>${label}</a>`).join('')}
+    </nav>` : '';
   return `
-    <div class="detail-hero">
+    ${_caseJumpNav}
+    <div class="detail-hero" id="proj-overview">
       <div>
         <div class="index" style="font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--muted); display:flex; align-items:center; gap: 14px; margin-bottom: 16px;">
           ${p.logo ? `<span style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:8px; border:1px solid var(--ink); background:var(--paper); padding:6px; box-shadow: 2px 2px 0 var(--ink);"><img src="${p.logo}" alt="${p.company} logo" style="width:100%; height:100%; object-fit:contain; display:block;"/></span>` : ''}
@@ -5037,14 +5297,11 @@ function renderDetail(p, i) {
       </dl>
     </div>
 
-    ${(() => {
-      const problem = p.detail.problem || (p.detail.sections && p.detail.sections[0] && p.detail.sections[0][1] && p.detail.sections[0][1].trim() !== '' && p.detail.sections[0][1].trim() !== '\n' ? p.detail.sections[0][1] : '');
-      return problem ? `
-    <section class="problem-statement" aria-label="Problem statement">
+    ${_problem ? `
+    <section class="problem-statement" id="proj-problem" aria-label="Problem statement">
       <div class="ps-eyebrow">Problem</div>
-      <p class="ps-body">${problem}</p>
-    </section>` : '';
-    })()}
+      <p class="ps-body">${_problem}</p>
+    </section>` : ''}
 
     ${p.slides ? renderDetailSlideshow(p) : ''}
 
