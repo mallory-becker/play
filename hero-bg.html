@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hero background animation</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  #viewport {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+  }
+  #scale-wrap { transform-origin: center center; }
+  .stage {
+    position: relative;
+    width: 1600px; height: 900px;
+    overflow: visible;
+    background: transparent;
+  }
+  .glyph svg { will-change: transform; }
+
+  /* ---- Seamless ambient loops (every keyframe returns to origin) ---- */
+  .anim-float   { animation: kf-float   var(--dur) ease-in-out infinite; }
+  .anim-drift   { animation: kf-drift   var(--dur) ease-in-out infinite; }
+  .anim-sway    { animation: kf-sway    var(--dur) ease-in-out infinite; }
+  .anim-breathe { animation: kf-breathe var(--dur) ease-in-out infinite; }
+  .anim-twinkle { animation: kf-twinkle var(--dur) ease-in-out infinite; }
+
+  @keyframes kf-float {
+    0%, 100% { transform: translateY(0) rotate(var(--rot)); }
+    50%      { transform: translateY(calc(-1 * var(--amp))) rotate(calc(var(--rot) + var(--rotamp))); }
+  }
+  @keyframes kf-drift {
+    0%, 100% { transform: translate(0, 0) rotate(var(--rot)); }
+    25%      { transform: translate(var(--amp), calc(-0.55 * var(--amp))) rotate(calc(var(--rot) + var(--rotamp))); }
+    50%      { transform: translate(0, calc(-1 * var(--amp))) rotate(var(--rot)); }
+    75%      { transform: translate(calc(-1 * var(--amp)), calc(-0.55 * var(--amp))) rotate(calc(var(--rot) - var(--rotamp))); }
+  }
+  @keyframes kf-sway {
+    0%, 100% { transform: rotate(calc(var(--rot) - var(--rotamp))); }
+    50%      { transform: rotate(calc(var(--rot) + var(--rotamp))); }
+  }
+  @keyframes kf-breathe {
+    0%, 100% { transform: rotate(var(--rot)) scale(1); }
+    50%      { transform: rotate(var(--rot)) scale(1.09); }
+  }
+  @keyframes kf-twinkle {
+    0%, 100% { transform: scale(1);    opacity: var(--op); }
+    50%      { transform: scale(1.45); opacity: calc(var(--op) * 0.45); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anim-float, .anim-drift, .anim-sway, .anim-breathe, .anim-twinkle { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#F0EEE6"/>
+      <g fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round">
+        <path d="M30 42 q8 -12 16 0 t16 0"/>
+        <circle cx="68" cy="32" r="7"/>
+        <path d="M34 64 q6 8 12 0"/>
+      </g>
+      <circle cx="30" cy="70" r="3" fill="#6E654A"/>
+      <circle cx="64" cy="66" r="2.4" fill="#A89C7C"/>
+    </svg>
+  </template>
+
+  <div id="viewport">
+    <div id="scale-wrap">
+      <div id="root"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script src="assets/glyphs.js"></script>
+
+  <script type="text/babel">
+    // ---- Fixed configuration (no tweaks panel) ----
+    // Ink palette: #111 + a warm ivory/tan ramp — matches the site's ink + cream system.
+    const PALETTE = ['#111111', '#6E654A', '#8C8262', '#A89C7C', '#C2B89C', '#D9D2BC'];
+    const DENSITY_MAX = 1;     // medium
+    const AMP_MUL = 1;         // gentle
+    const SPEED_MUL = 1;
+
+    const BASE_W = {
+      spiral: 92, wave: 240, loop: 112, diamond: 128, heart: 70,
+      blob: 82, arrow: 112, scribble: 120, border: 280, flourish: 150,
+    };
+
+    // Composition baked from the source's EDITMODE block (latest version).
+    const ELEMENTS = [
+      { id:4,  t:'spiral',   x:5.6,  y:78.9, s:2.35, r:47,   a:'drift'   },
+      { id:10, t:'flourish', x:92.6, y:82.7, s:0.85, r:-125, a:'drift'   },
+      { id:15, t:'loop',     x:85.7, y:13.7, s:1.2,  r:10,   a:'sway'    },
+      { id:23, t:'border',   x:74.5, y:8.1,  s:0.95, r:0,    a:'float'   },
+      { id:28, t:'diamond',  x:88.7, y:73,   s:1.0,  r:6,    a:'sway'    },
+      { id:34, t:'blob',     x:82.2, y:72.7, s:1.4,  r:8,    a:'drift'   },
+      { id:39, t:'flourish', x:13.1, y:64,   s:1.0,  r:-4,   a:'sway'    },
+      { id:45, t:'scribble', x:87.4, y:45.7, s:1.0,  r:12,   a:'breathe' },
+      { id:52, t:'wave',     x:15.6, y:90.9, s:1.1,  r:-3,   a:'float'   },
+      { id:59, t:'spiral',   x:93,   y:31,   s:0.95, r:14,   a:'sway'    },
+      { id:64, t:'wave',     x:85.3, y:87.7, s:1.7,  r:4,    a:'sway'    },
+      { id:71, t:'blob',     x:91,   y:57,   s:0.95, r:-6,   a:'float'   },
+    ];
+
+    const DOTS = [
+      { x:16, y:70, d:9,  p:0 }, { x:19, y:65, d:6,  p:0 }, { x:23, y:73, d:11, p:0 },
+      { x:60, y:15, d:8,  p:0 }, { x:64, y:13, d:5,  p:0 }, { x:67, y:18, d:10, p:1 },
+      { x:87, y:84, d:7,  p:1 }, { x:40, y:41, d:6,  p:1 }, { x:53, y:55, d:9,  p:1 },
+    ];
+
+    const RINGS = [
+      { x:69, y:71, w:54, h:32, r:-14, p:1 },
+    ];
+
+    function Glyph({ el, color, dur, delay }) {
+      const g = window.GLYPHS[el.t];
+      const [vx, vy, vw, vh] = g.vb.split(' ').map(Number);
+      const w = BASE_W[el.t] * el.s;
+      const h = w * (vh / vw);
+      const wrap = {
+        position: 'absolute',
+        left: el.x + '%', top: el.y + '%',
+        width: w, height: h,
+        marginLeft: -w / 2, marginTop: -h / 2,
+        color,
+        '--rot': el.r + 'deg',
+        '--rotamp': (el.a === 'sway' ? 5 : 3) * AMP_MUL + 'deg',
+        '--amp': (el.a === 'drift' ? 22 : 16) * AMP_MUL + 'px',
+        '--dur': dur + 's',
+        animationDelay: delay + 's',
+      };
+      return (
+        <div className={'glyph anim-' + el.a} style={wrap}>
+          <svg viewBox={g.vb} width={w} height={h} style={{ display: 'block', overflow: 'visible' }} aria-hidden="true">
+            <path d={g.d} fill="currentColor" fillRule="nonzero" />
+          </svg>
+        </div>
+      );
+    }
+
+    function Dot({ spec, color, dur, delay }) {
+      return (
+        <div className="anim-twinkle" style={{
+          position: 'absolute', left: spec.x + '%', top: spec.y + '%',
+          width: spec.d, height: spec.d, marginLeft: -spec.d / 2, marginTop: -spec.d / 2,
+          borderRadius: '50%', background: color,
+          '--op': 0.9, '--dur': dur + 's', animationDelay: delay + 's',
+        }} />
+      );
+    }
+
+    function Ring({ spec, color, dur, delay }) {
+      return (
+        <div className="anim-sway" style={{
+          position: 'absolute', left: spec.x + '%', top: spec.y + '%',
+          width: spec.w, height: spec.h, marginLeft: -spec.w / 2, marginTop: -spec.h / 2,
+          borderRadius: '50%', border: '3px solid ' + color, boxSizing: 'border-box',
+          '--rot': spec.r + 'deg', '--rotamp': 6 * AMP_MUL + 'deg',
+          '--dur': dur + 's', animationDelay: delay + 's',
+        }} />
+      );
+    }
+
+    function rng(seed) { let s = seed * 9301 + 49297; return ((s % 233280) / 233280); }
+
+    function Stage() {
+      const pick = (i) => PALETTE[i % PALETTE.length];
+      const durFor = (i, lo, hi) => ((lo + rng(i + 7) * (hi - lo)) / SPEED_MUL);
+      const delayFor = (i) => -(rng(i + 31) * 8);
+
+      const dots   = DOTS.filter(s => s.p <= DENSITY_MAX);
+      const rings  = RINGS.filter(s => s.p <= DENSITY_MAX);
+
+      return (
+        <div className="stage">
+          {ELEMENTS.map((el) => (
+            <Glyph key={el.id} el={el} color={pick(el.id)}
+                   dur={durFor(el.id, 10, 17)} delay={delayFor(el.id)} />
+          ))}
+          {rings.map((s, i) => (
+            <Ring key={'r' + i} spec={s} color={pick(i + 3)}
+                  dur={durFor(i + 100, 11, 16)} delay={delayFor(i + 100)} />
+          ))}
+          {dots.map((s, i) => (
+            <Dot key={'d' + i} spec={s} color={pick(i + 1)}
+                 dur={durFor(i + 200, 4, 7)} delay={delayFor(i + 200)} />
+          ))}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Stage />);
+  </script>
+
+  <script>
+    // Scale the fixed 1600×900 stage to COVER the viewport (fill, center-crop).
+    (function () {
+      const STAGE_W = 1600, STAGE_H = 900;
+      const wrap = document.getElementById('scale-wrap');
+      function fit() {
+        const s = Math.max(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
+        wrap.style.transform = 'scale(' + s + ')';
+      }
+      fit();
+      window.addEventListener('resize', fit);
+    })();
+  </script>
+</body>
+</html>

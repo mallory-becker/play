@@ -291,6 +291,24 @@
     position: relative;
     overflow: hidden;
   }
+  /* animated decorative glyph field behind the hero (isolated iframe) */
+  .hero-anim {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.7;
+  }
+  .hero-anim iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    background: transparent;
+  }
+  .hero .wrap { position: relative; z-index: 2; }
+  .hero .doodle { z-index: 1; }
   .hero .eyebrow {
     display: block;
     font-family: var(--sans);
@@ -412,6 +430,21 @@
     object-fit: contain;
     display: block;
     pointer-events: none;
+  }
+  /* animated glyph field behind the portrait (isolated iframe) */
+  .portrait-anim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.7;
+  }
+  .portrait-anim iframe {
+    width: 100%; height: 100%;
+    border: 0;
+    display: block;
+    background: transparent;
   }
   @media (max-width: 1100px) {
     .portrait-wrap {
@@ -3447,12 +3480,21 @@
   .gate .gate-doodle.squiggle { bottom: 14%; left: 6%; width: 180px; height: 48px; }
   .gate .gate-doodle.arrow { top: 50%; left: 5%; width: 130px; height: 80px; transform: translateY(-30px) rotate(-6deg); }
   .gate .gate-doodle.starburst { top: 18%; left: 12%; width: 70px; height: 70px; }
-  .gate .gate-doodle.curl { bottom: 24%; right: 8%; width: 120px; height: 80px; }
+
+  /* PNG decorative elements replacing the arrow + curl doodles */
+  .gate .gate-img {
+    position: absolute;
+    height: auto;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+  .gate .gate-img.ovals { top: 50%; left: 5%; width: 116px; transform: translateY(-30px) rotate(-6deg); }
+  .gate .gate-img.scallop { bottom: 26%; right: 7%; width: 150px; }
 
   @media (max-width: 720px) {
     .gate .gate-doodle.spiral,
-    .gate .gate-doodle.curl { display: none; }
-    .gate .gate-doodle.arrow { left: 4%; width: 90px; }
+    .gate .gate-img.scallop { display: none; }
+    .gate .gate-img.ovals { left: 4%; width: 84px; }
     .gate .gate-doodle.squiggle { width: 120px; left: 4%; }
   }
 
@@ -3481,16 +3523,11 @@
   <svg class="gate-doodle squiggle" viewBox="0 0 200 60" aria-hidden="true">
     <path d="M5 30 Q 25 5, 45 30 T 85 30 T 125 30 T 165 30 T 195 30"/>
   </svg>
-  <svg class="gate-doodle arrow" viewBox="0 0 140 80" aria-hidden="true">
-    <path d="M10 60 C 30 20, 70 10, 120 30"/>
-    <path d="M120 30 L 108 22 M 120 30 L 112 42"/>
-  </svg>
+  <img class="gate-img ovals" src="assets/el-ovals.png" alt="" aria-hidden="true"/>
   <svg class="gate-doodle starburst" viewBox="0 0 60 60" aria-hidden="true">
     <path d="M30 4 V 56 M 4 30 H 56 M 11 11 L 49 49 M 11 49 L 49 11"/>
   </svg>
-  <svg class="gate-doodle curl" viewBox="0 0 120 80" aria-hidden="true">
-    <path d="M10 70 C 30 30, 60 20, 90 35 S 110 55, 110 55"/>
-  </svg>
+  <img class="gate-img scallop" src="assets/el-scallop.png" alt="" aria-hidden="true"/>
 
   <div class="gate-stage">
     <div class="gate-card">
@@ -3620,25 +3657,10 @@
 
 <!-- =================================== HERO =================================== -->
 <section class="hero" id="top" style="padding: 48px 0px 80px">
-  <!-- doodle: top right spiral -->
-  <svg class="doodle thick" viewBox="0 0 120 120" width="110" height="110" style="top: 30px; right: 6%;">
-    <path d="M60 60 m-30 0 a30 30 0 1 1 60 0 a25 25 0 1 1 -50 0 a20 20 0 1 1 40 0 a15 15 0 1 1 -30 0 a10 10 0 1 1 20 0" />
-  </svg>
-  <!-- doodle: left squiggle -->
-  <svg class="doodle" viewBox="0 0 200 60" width="160" height="50" style="top: 130px; left: 4%;">
-    <path d="M2 30 Q 30 2, 60 30 T 120 30 T 180 30 T 198 30" />
-  </svg>
-  <!-- doodle: asterisk near hero text -->
-  <svg class="doodle thick" viewBox="0 0 50 50" width="42" height="42" style="top: 220px; left: 38%;">
-    <line x1="25" y1="6" x2="25" y2="44" />
-    <line x1="6" y1="25" x2="44" y2="25" />
-    <line x1="11" y1="11" x2="39" y2="39" />
-    <line x1="39" y1="11" x2="11" y2="39" />
-  </svg>
-  <!-- doodle: zigzag bottom -->
-  <svg class="doodle thick" viewBox="0 0 200 40" width="180" height="36" style="bottom: -10px; right: 26%;">
-    <polyline points="2 28, 30 8, 58 28, 86 8, 114 28, 142 8, 170 28, 198 8" />
-  </svg>
+  <!-- animated decorative glyph field across the whole hero (isolated, transparent) -->
+  <div class="hero-anim" aria-hidden="true">
+    <iframe src="hero-bg.bundled.html" title="" tabindex="-1" scrolling="no"></iframe>
+  </div>
 
   <div class="wrap">
     <div class="hero-grid">
@@ -4290,7 +4312,8 @@ const PROJECTS = [
   },
   {
     num: "04",
-    title: "Teaching Product & Engineering Teams",
+    title: "Analytics for Product & Engineering Teams",
+    pillLabel: "Teaching Fullstory",
     subtitle: "Creating tutorial-level courses for user research practices and platforms (Fullstory, specifically), and evangelizing user design heuristics.",
     year: "2023-2025",
     role: "Senior UX Designer",
@@ -4314,7 +4337,7 @@ const PROJECTS = [
     detail: {
       underConstruction: true,
       hideSubtitle: true,
-      tagline: "Creating tutorial-level courses for user research practice ans platforms (Fullstory, specifically), and evangelizing user desiggn heuristics.",
+      tagline: "Creating tutorial-level courses for user research practice and platforms (Fullstory, specifically), and evangelizing user design heuristics.",
       meta: [
         ["Role", "Senior UX Designer"],
         ["Duration", "18 months"],
@@ -4355,7 +4378,7 @@ function renderDetailSlideshow(p) {
   }).join('');
   const capsHtml = p.slides.map((s, i) => `
     <article class="ds-cap" data-i="${i}" data-phase="${s.phase}">
-      <span class="phase"><span class="dot"></span>${s.phase}</span>
+      <span class="phase"><span class="dot"></span>${p.pillLabel || s.phase}</span>
       <h3>${s.headline || s.label}</h3>
       <p>${s.body || ''}</p>
       <span class="ds-label">${String(i+1).padStart(2,'0')} · ${s.label}</span>
@@ -4545,10 +4568,10 @@ function renderSlideshow(p) {
   }).join('');
   const segments = p.slides.map((_, i) => `<span data-i="${i}"></span>`).join('');
   return `
-    <div class="proj-slideshow" data-phase="${p.slides[0].phase}" data-slide-ms="${slideMs}" style="--slide-ms: ${slideMs}ms;">
+    <div class="proj-slideshow" data-phase="${p.slides[0].phase}" data-slide-ms="${slideMs}"${p.pillLabel ? ` data-pill-label="${p.pillLabel}"` : ''} style="--slide-ms: ${slideMs}ms;">
       ${slides}
       <div class="flash" aria-hidden="true"></div>
-      <div class="phase-pill"><span class="dot"></span><span class="phase-text">${p.slides[0].phase}</span></div>
+      <div class="phase-pill"><span class="dot"></span><span class="phase-text">${p.pillLabel || p.slides[0].phase}</span></div>
       <div class="caption"><span class="idx">${String(1).padStart(2,'0')} / ${String(p.slides.length).padStart(2,'0')}</span><span class="lbl">${p.slides[0].label}</span><span class="cap-hl">${p.slides[0].headline || p.slides[0].label || ''}</span></div>
       <div class="progress">${segments}</div>
     </div>
@@ -4559,6 +4582,7 @@ function renderSlideshow(p) {
 function startSlideshow(root) {
   const slides   = Array.from(root.querySelectorAll('.slide'));
   const pill     = root.querySelector('.phase-text');
+  const pillLabel = root.dataset.pillLabel || null;
   const captionL = root.querySelector('.caption .lbl');
   const captionI = root.querySelector('.caption .idx');
   const captionH = root.querySelector('.caption .cap-hl');
@@ -4611,13 +4635,13 @@ function startSlideshow(root) {
         cur.classList.remove('leaving');
         nxt.classList.add('active');
         root.setAttribute('data-phase', nxt.dataset.phase);
-        if (pill) pill.textContent = nxt.dataset.phase;
+        if (pill) pill.textContent = pillLabel || nxt.dataset.phase;
         setCaption(nxt.dataset.label, nextIdx);
       }, 420);
     } else {
       nxt.classList.add('active');
       root.setAttribute('data-phase', nxt.dataset.phase);
-      if (pill) pill.textContent = nxt.dataset.phase;
+      if (pill) pill.textContent = pillLabel || nxt.dataset.phase;
       setCaption(nxt.dataset.label, nextIdx);
 
       // clean up leaving class after its anim finishes
